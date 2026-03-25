@@ -1,0 +1,14 @@
+{
+  "founder_name": "Ravi Krishnamurthy",
+  "company": "NovaCrop AI",
+  "domain": "precision agriculture",
+  "product": "Crop disease detection model deployed on agricultural drones",
+  "current_stack": ["PyTorch", "TensorFlow Lite", "DJI SDK"],
+  "nvidia_tools": ["Jetson Orin", "TAO Toolkit", "NIM", "DeepStream"],
+  "funding_stage": "Series A",
+  "primary_challenge": "Model accuracy degrades in low-light and high-humidity conditions. Needs edge optimization for Jetson deployment.",
+  "compliance_requirements": [],
+  "deployment_target": "edge - DJI Matrice drone with Jetson Orin NX",
+  "twelve_month_goal": "Deploy across 500 farms in 3 countries with real-time disease detection at under 100ms latency",
+  "investor_narrative": "First mover in drone-based crop disease detection with proprietary field data from 40,000 acres"
+}

@@ -1,0 +1,14 @@
+{
+  "founder_name": "Maya Chen",
+  "company": "ClaraVision",
+  "domain": "medical imaging",
+  "product": "Anomaly detection model for MRI and CT scans",
+  "current_stack": ["PyTorch", "MONAI", "AWS S3"],
+  "nvidia_tools": ["NIM", "MONAI", "FLARE"],
+  "funding_stage": "Seed",
+  "primary_challenge": "CTO and engineering team are building their interpretation of the vision, not the founder's vision. Model stalled at prototype. GCP credits unactivated.",
+  "compliance_requirements": ["HIPAA"],
+  "deployment_target": "on-premise hospital network",
+  "twelve_month_goal": "Deploy anomaly detection model in 3 hospital networks with federated learning across sites",
+  "investor_narrative": "Proprietary data flywheel across hospital networks creates defensible moat"
+}
