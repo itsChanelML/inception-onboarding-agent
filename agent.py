@@ -3,12 +3,15 @@ import os
 import sys
 from pathlib import Path
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
 NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
 NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
-MODEL = "nvidia/nemotron-4-340b-instruct"
+MODEL = "nvidia/nemotron-3-super-120b-a12b"
 
 # ── Load Files ─────────────────────────────────────────────────────────────────
 
@@ -38,12 +41,12 @@ def call_nim(prompt: str, task_name: str) -> str:
         print(f"[Agent] Calling Nemotron via NIM for: {task_name}...")
 
         client = OpenAI(
-            base_url=NIM_BASE_URL,
+            base_url="https://integrate.api.nvidia.com/v1",
             api_key=NVIDIA_API_KEY
         )
 
-        response = client.chat.completions.create(
-            model=MODEL,
+        completion = client.chat.completions.create(
+            model="nvidia/nemotron-3-super-120b-a12b",
             messages=[
                 {
                     "role": "system",
@@ -54,11 +57,28 @@ def call_nim(prompt: str, task_name: str) -> str:
                     "content": prompt
                 }
             ],
-            temperature=0.7,
-            max_tokens=2048
+            temperature=1,
+            top_p=0.95,
+            max_tokens=16384,
+            extra_body={
+                "chat_template_kwargs": {"enable_thinking": True},
+                "reasoning_budget": 16384
+            },
+            stream=True
         )
 
-        return response.choices[0].message.content
+        # Collect streamed response
+        full_response = ""
+        print(f"[Agent] Streaming response", end="", flush=True)
+        for chunk in completion:
+            if not chunk.choices:
+                continue
+            if chunk.choices[0].delta.content is not None:
+                full_response += chunk.choices[0].delta.content
+                print(".", end="", flush=True)
+        print(" done.")
+
+        return full_response
 
     except Exception as e:
         print(f"[ERROR] NIM call failed: {e}")
