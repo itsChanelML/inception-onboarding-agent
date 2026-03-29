@@ -287,6 +287,124 @@ label{font-size:10px;font-weight:700;color:var(--dim);letter-spacing:1px;text-tr
 .tdot{width:6px;height:6px;border-radius:50%;background:var(--nv);display:inline-block;animation:tb 1.2s infinite}
 .tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
 @keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
+
+/* ── PORTAL SWITCHER ── */
+.portal-switcher{display:inline-flex;background:var(--card2);border:1px solid var(--bdr);border-radius:20px;padding:3px;gap:2px;position:absolute;left:50%;transform:translateX(-50%)}
+.ps-opt{padding:6px 16px;border-radius:16px;border:none;background:transparent;color:var(--sub);font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s ease;white-space:nowrap}
+.ps-opt:hover{color:var(--txt)}
+.ps-active{background:var(--nv) !important;color:#000 !important}
+
+/* ── BADGE BOUNCE ── */
+@keyframes badgeBounce{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.badge-bounce{animation:badgeBounce .4s ease .5s both}
+.tb-badge-clickable{cursor:pointer;transition:opacity .2s}
+.tb-badge-clickable:hover{opacity:.8}
+
+/* ── INTRO OVERLAY ── */
+.intro-overlay{position:fixed;inset:0;background:rgba(7,9,10,.96);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.intro-overlay.visible{opacity:1;pointer-events:all}
+.intro-content{text-align:center;max-width:520px;padding:40px 20px}
+@keyframes fadeUpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.io-beat{opacity:0}
+.io-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:24px}
+.io-introducing{font-family:'Barlow',sans-serif;font-size:16px;font-weight:400;color:var(--sub);margin-bottom:8px}
+.io-name{font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:800;color:var(--nv);line-height:1;margin-bottom:4px}
+.io-company{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:600;color:var(--txt);margin-bottom:8px}
+.io-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:1px}
+.io-rule{width:320px;height:1px;background:var(--bdr);margin:20px auto}
+.io-ctx{margin-bottom:24px}
+.io-ctx p{font-size:13px;color:var(--sub);line-height:1.6;margin:3px 0}
+.io-ctx p.mono{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+.io-btn{padding:14px 32px;background:var(--nv);color:#000;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .15s;display:block;margin:0 auto}
+.io-btn:hover{background:var(--nv-d);transform:scale(1.02)}
+.io-dismiss{display:block;margin:12px auto 0;font-size:12px;color:var(--dim);background:none;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:color .2s}
+.io-dismiss:hover{color:var(--sub)}
+
+/* ── BRIEF STATUS & POPULATION ── */
+.brief-status{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--nv);margin-bottom:20px}
+.brief-status-dot{width:6px;height:6px;border-radius:50%;background:var(--nv);animation:pulse 1s infinite;flex-shrink:0}
+.brief-section-check{opacity:0;color:var(--nv);font-size:12px;margin-left:auto;transition:opacity .3s}
+.brief-section-check.done{opacity:1}
+@keyframes shimmerSweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.shimmer-wrap{position:relative;overflow:hidden;background:var(--card2);border-radius:3px}
+.shimmer-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:shimmerSweep 1.5s infinite}
+
+/* ── BRIEF ACK & NEXT STEP ── */
+.brief-complete-banner{background:var(--nv-glow);border:1px solid var(--nv-b2);border-radius:var(--rsm);padding:14px 20px;margin-bottom:24px;font-size:13px;color:var(--sub);line-height:1.6;display:none;font-style:italic}
+.brief-ack-btn{width:100%;padding:16px;background:var(--nv);color:#000;border:none;border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;margin-top:24px;display:none;transition:background .2s}
+.brief-ack-btn:hover{background:var(--nv-d)}
+.brief-ack-done{width:100%;padding:14px;background:rgba(118,185,0,.1);color:var(--nv);border:1px solid var(--nv-b2);border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:24px;display:none;text-align:center}
+.brief-next-step{background:var(--card2);border:1px solid var(--bdr);border-radius:var(--r);padding:24px;margin-top:16px;display:none;animation:fadeUpIn .4s ease}
+.bns-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--nv);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.bns-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.bns-sub{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:16px}
+.bns-pills{display:flex;gap:8px;margin-bottom:16px}
+.agenda-launch-btn{padding:12px 24px;background:var(--nv);color:#000;border:none;border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:background .2s}
+.agenda-launch-btn:hover{background:var(--nv-d)}
+
+/* ── PROFILE CHANGE ALERT ── */
+.pcb{background:rgba(212,154,60,.08);border-bottom:1px solid rgba(212,154,60,.2);padding:0 24px;height:56px;display:none;align-items:center;gap:16px;position:sticky;top:0;z-index:10;flex-shrink:0}
+.pcb.show{display:flex}
+.pcb-dot{width:8px;height:8px;border-radius:50%;background:var(--amb);animation:pulse 1s infinite;flex-shrink:0}
+.pcb-label{font-size:13px;color:var(--sub)}
+.pcb-label strong{color:var(--txt)}
+.pcb-change{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amb);flex:1}
+.pcb-btns{display:flex;gap:8px;flex-shrink:0}
+.pcb-btn-a{padding:7px 14px;background:transparent;border:1px solid var(--amb);color:var(--amb);border-radius:var(--rsm);font-size:12px;font-weight:600;cursor:pointer;font-family:'Barlow',sans-serif;transition:background .2s;white-space:nowrap}
+.pcb-btn-a:hover{background:rgba(212,154,60,.1)}
+.pcb-btn-b{padding:7px 14px;background:transparent;border:1px solid var(--bdr);color:var(--sub);border-radius:var(--rsm);font-size:12px;font-weight:600;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;white-space:nowrap}
+.pcb-btn-b:hover{border-color:var(--nv-b2);color:var(--txt)}
+
+/* ── REGEN MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(7,9,10,.8);backdrop-filter:blur(4px);z-index:900;display:none;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:32px;max-width:480px;width:90%;animation:fadeUpIn .3s ease}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--txt);margin-bottom:8px}
+.modal-sub{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:24px}
+.modal-changes{background:var(--card2);border:1px solid var(--bdr);border-radius:var(--rsm);padding:16px;margin-bottom:24px}
+.mc-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr2);font-size:12px}
+.mc-row:last-child{border-bottom:none;padding-bottom:0}
+.mc-field{color:var(--sub);width:150px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px}
+.mc-old{color:var(--dim);text-decoration:line-through}
+.mc-arr{color:var(--dim)}
+.mc-new{color:var(--nv);font-weight:600}
+.mc-impact{color:var(--amb)}
+.modal-btns{display:flex;gap:12px}
+.modal-btn-p{flex:1;padding:12px;background:var(--nv);color:#000;border:none;border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px}
+.modal-btn-s{flex:1;padding:12px;background:transparent;border:1px solid var(--bdr);color:var(--sub);border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .2s}
+.modal-btn-s:hover{border-color:var(--nv-b2);color:var(--txt)}
+
+/* ── MESSAGE COMPOSER ── */
+.composer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bdr);border-radius:var(--r) var(--r) 0 0;padding:24px;z-index:800;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.composer.show{transform:translateY(0)}
+.composer-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.composer-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--txt)}
+.composer-close{background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer;padding:0;line-height:1;transition:color .2s}
+.composer-close:hover{color:var(--txt)}
+.composer-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:16px}
+.composer-ta{width:100%;min-height:100px;background:var(--card2);border:1px solid var(--bdr);border-radius:var(--rsm);padding:14px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:13px;line-height:1.6;resize:none;outline:none;transition:border .2s}
+.composer-ta:focus{border-color:var(--nv-b)}
+.composer-note{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin:8px 0 16px}
+.composer-btns{display:flex;gap:10px}
+.comp-send{padding:10px 24px;background:var(--nv);color:#000;border:none;border-radius:var(--rsm);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.5px}
+.comp-copy{padding:10px 16px;background:transparent;border:1px solid var(--bdr);color:var(--sub);border-radius:var(--rsm);font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s}
+.comp-copy:hover{border-color:var(--nv-b2);color:var(--txt)}
+
+/* ── AGENDA TRANSITION ── */
+.agenda-trans{position:fixed;inset:0;background:var(--bg);z-index:950;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.agenda-trans.show{display:flex}
+.at-logo{width:40px;height:40px;background:var(--nv);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.at-text{font-size:14px;color:var(--sub);font-family:'Barlow',sans-serif}
+.at-bar{width:200px;height:2px;background:var(--card2);border-radius:2px;overflow:hidden}
+.at-fill{height:100%;background:var(--nv);width:0}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--nv);color:#000;padding:14px 20px;border-radius:10px;font-weight:700;font-size:13px;z-index:9999;box-shadow:0 4px 20px rgba(118,185,0,.3);transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;font-family:'Barlow',sans-serif}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── ACTIVITY CHANGE ROW ── */
+.act-change{border-left:3px solid var(--amb) !important}
+
 </style>
 </head>
 <body>
@@ -300,8 +418,14 @@ label{font-size:10px;font-weight:700;color:var(--dim);letter-spacing:1px;text-tr
     <div class="tb-divider"></div>
     <div class="tb-role">Manager Portal</div>
   </div>
+  <!-- Portal Switcher -->
+  <div class="portal-switcher">
+    <button class="ps-opt ps-active" onclick="switchPortal('manager')">⊞ Manager</button>
+    <button class="ps-opt" onclick="switchPortal('founder')">◎ Founder</button>
+  </div>
   <div class="tb-right">
     <div class="tb-badge badge-nv"><div class="tb-pulse"></div>Aria Online</div>
+    <div class="tb-badge badge-nv tb-badge-clickable badge-bounce" id="new-founder-badge" onclick="showIntroOverlay()" title="New founder assigned">🔔 New Founder</div>
     <div class="tb-badge badge-amb">3 Pending Tickets</div>
     <div class="tb-badge badge-blu">6 Active Founders</div>
     <div class="tb-avatar" title="Chanel Power — DevRel Manager">CP</div>
@@ -774,6 +898,15 @@ label{font-size:10px;font-weight:700;color:var(--dim);letter-spacing:1px;text-tr
 
 <!-- ══ MAYA FOUNDER PROFILE ══ -->
 <div class="screen" id="screen-maya" style="padding-bottom:60px">
+  <div class="pcb" id="pcb">
+    <div class="pcb-dot"></div>
+    <div class="pcb-label"><strong>Maya updated her profile</strong> · 2 hours ago</div>
+    <div class="pcb-change">Deployment target: On-Premise → Hybrid Cloud</div>
+    <div class="pcb-btns">
+      <button class="pcb-btn-a" onclick="showRegenModal()">Ask Aria to Regenerate Brief</button>
+      <button class="pcb-btn-b" onclick="showComposer()">Message Maya</button>
+    </div>
+  </div>
   <div class="detail-back">
     <button class="btn btn-ghost" style="font-size:12px;padding:7px 12px" onclick="goTo('portfolio')">← Portfolio</button>
     <div style="font-size:13px;font-weight:600;color:var(--txt)">Founder Profile — Dr. Maya Chen</div>
@@ -1077,20 +1210,14 @@ label{font-size:10px;font-weight:700;color:var(--dim);letter-spacing:1px;text-tr
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:800;color:var(--txt);line-height:1;margin-bottom:6px">New Founder Brief</div>
     <div style="font-size:14px;color:var(--sub);margin-bottom:16px">ClaraVision · Dr. Maya Chen · Assigned to Chanel Power</div>
     <div style="height:1px;background:var(--bdr);margin-bottom:16px"></div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:20px">Generated by Inception Intelligence · Day 1 · Read before first contact</div>
-
-    <!-- LIVE GENERATE BUTTON -->
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;padding:16px;background:var(--nv-glow);border:1px solid var(--nv-b2);border-radius:12px">
-      <div style="flex:1">
-        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px">Generate Live Brief with Nemotron</div>
-        <div style="font-size:12px;color:var(--sub)">Run the Inception Intelligence agent against Maya's founder profile in real time</div>
-      </div>
-      <button onclick="generateBrief('claravision', this)" style="padding:10px 20px;background:var(--nv);color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">⚡ Generate Now</button>
+    <div class="brief-status" id="brief-status">
+      <div class="brief-status-dot" id="brief-status-dot"></div>
+      <span id="brief-status-text">Aria is preparing your brief...</span>
     </div>
-    <!-- LIVE OUTPUT -->
-    <div id="live-brief-output" style="display:none;background:var(--card2);border:1px solid var(--bdr);border-radius:12px;margin-bottom:28px;min-height:200px;overflow-y:auto;max-height:calc(100vh - 300px)"></div>
+    <div class="brief-complete-banner" id="brief-banner">
+      Maya's brief is ready. Read it carefully — your first conversation should feel like your third.
+    </div>
 
-    <div id="brief-static-content">
     <div style="padding:18px 22px;background:linear-gradient(135deg,#001228,#001e38);border:1px solid var(--blu-b);border-left:3px solid var(--blu);border-radius:var(--rsm);margin-bottom:32px">
       <div style="font-size:13px;color:var(--txt);line-height:1.7">This brief was generated from Dr. Chen's intake and Aria's analysis. It is designed to make your first conversation substantive from the first minute. <strong style="color:var(--blu)">The founder does not see this document.</strong></div>
     </div>
@@ -1255,6 +1382,22 @@ label{font-size:10px;font-weight:700;color:var(--dim);letter-spacing:1px;text-tr
         <button class="btn btn-ghost" onclick="goTo('aria')">⬡ Ask Aria About This Founder</button>
       </div>
     </div>
+
+    <!-- Acknowledgment flow -->
+    <button class="brief-ack-btn" id="brief-ack-btn" onclick="acknowledgeBrief()">I've Read This — Schedule First Meeting</button>
+    <div class="brief-ack-done" id="brief-ack-done">✓ Brief Reviewed · <span id="brief-ack-time"></span></div>
+    <div class="brief-next-step" id="brief-next-step">
+      <div class="bns-label">Next Step</div>
+      <div class="bns-title">Your Kickoff Agenda is Ready</div>
+      <div class="bns-sub">Aria built a 60-minute agenda based on Maya's brief, her risk signals, and the open questions worth exploring in your first conversation.</div>
+      <div class="bns-pills">
+        <span class="pill pb">60 Minutes</span>
+        <span class="pill pb">6 Agenda Blocks</span>
+      </div>
+      <button class="agenda-launch-btn" onclick="openKickoffAgenda()">Open Kickoff Agenda →</button>
+      <div style="font-size:11px;color:var(--dim);margin-top:10px;font-family:'JetBrains Mono',monospace">Aria will update this agenda if Maya's profile changes</div>
+    </div>
+
   </div>
 </div>
 
@@ -1629,127 +1772,287 @@ function showTyping(){const w=document.getElementById('aria-msgs'),d=document.cr
 function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
 function sendChip(el){const text=el.textContent.trim();addUser(text);el.remove();setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addAria(ariaReplies[text]||"Good question. Based on your portfolio signals today, I'd prioritize the ClaraVision kickoff first — that's your most time-sensitive action. Want me to draft a scheduling message to Maya?");},1800);},300);}
 function sendMsg(){const inp=document.getElementById('aria-input'),text=inp.value.trim();if(!text)return;addUser(text);inp.value='';setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addAria("Based on your current portfolio, here's how I'd approach this: ClaraVision is the priority today — Day 14 without first contact is at your SLA limit. The ticket she submitted is answerable in 3 minutes with the draft I prepared. Schedule the kickoff call, send the reply, and send the solutions engineer intro same day. That's the full ClaraVision action set. Want me to draft any of those?");},1800);},300);}
-
-// ── LIVE BRIEF GENERATION ──────────────────────────────────────────────────────
-
-function generateBrief(founderSlug, btnEl){
-  if(btnEl){
-    btnEl.textContent = '⟳ Generating...';
-    btnEl.disabled = true;
-    btnEl.style.opacity = '0.7';
-  }
-
-  // Show the live output area and hide static content
-  const liveOutput = document.getElementById('live-brief-output');
-  const staticContent = document.getElementById('brief-static-content');
-
-  if(liveOutput){
-    liveOutput.style.display = 'block';
-    liveOutput.innerHTML = `
-      <div style="display:flex;align-items:center;gap:12px;padding:20px;border-bottom:1px solid var(--bdr)">
-        <div style="width:8px;height:8px;border-radius:50%;background:var(--nv);animation:pulse 1s infinite"></div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--nv)">Nemotron is reasoning through Maya's profile...</div>
-      </div>
-      <div id="brief-stream-content" style="padding:28px;font-size:13px;line-height:1.75;color:var(--txt)"></div>
-    `;
-  }
-
-  if(staticContent) staticContent.style.display = 'none';
-
-  let fullContent = '';
-  const streamEl = document.getElementById('brief-stream-content');
-
-  fetch('/api/generate/' + founderSlug + '/vision_brief')
-    .then(response => {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      function read(){
-        return reader.read().then(({done, value}) => {
-          if(done) return;
-          const text = decoder.decode(value);
-          const lines = text.split('\n');
-          lines.forEach(line => {
-            if(line.startsWith('data: ')){
-              const chunk = line.slice(6);
-              if(chunk === '[DONE]'){
-                // Generation complete — update header
-                if(btnEl){
-                  btnEl.textContent = '✓ Brief Ready';
-                  btnEl.style.background = 'var(--nv)';
-                  btnEl.style.color = '#000';
-                  btnEl.disabled = false;
-                  btnEl.style.opacity = '1';
-                }
-                // Remove the pulsing header
-                const pulseHeader = liveOutput.querySelector('div:first-child');
-                if(pulseHeader) pulseHeader.remove();
-                // Generate roadmap silently
-                generateRoadmap(founderSlug);
-              } else if(chunk.startsWith('[GENERATING]') || chunk.startsWith('[SAVED]')){
-                // Status messages — ignore visually
-              } else if(chunk.startsWith('ERROR')){
-                if(streamEl) streamEl.innerHTML = '<div style="color:var(--cor);padding:16px">' + chunk + '</div>';
-              } else if(chunk.length > 0){
-                fullContent += chunk.replace(/\\n/g, '\n');
-                if(streamEl){
-                  // Render markdown-like formatting
-                  const rendered = fullContent
-                    .replace(/\n/g, '<br>')
-                    .replace(/## (.*?)(<br>|$)/g, '<h3 style="font-family:Barlow Condensed,sans-serif;font-size:20px;font-weight:800;color:var(--nv);margin:24px 0 8px;text-transform:uppercase;letter-spacing:1px">$1</h3>')
-                    .replace(/# (.*?)(<br>|$)/g, '<h2 style="font-family:Barlow Condensed,sans-serif;font-size:28px;font-weight:800;color:var(--txt);margin:0 0 8px">$1</h2>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--txt)">$1</strong>')
-                    .replace(/\|(.*?)\|/g, '<span style="font-family:JetBrains Mono,monospace;font-size:11px;color:var(--sub)">|$1|</span>')
-                    .replace(/^- (.*)/gm, '<div style="padding:4px 0 4px 16px;border-left:2px solid var(--nv-b);margin:4px 0;color:var(--sub)">$1</div>')
-                    .replace(/^• (.*)/gm, '<div style="padding:4px 0 4px 16px;border-left:2px solid var(--nv-b);margin:4px 0;color:var(--sub)">$1</div>');
-                  streamEl.innerHTML = rendered;
-                  streamEl.scrollTop = streamEl.scrollHeight;
-                }
-              }
-            }
-          });
-          return read();
-        });
-      }
-      return read();
-    })
-    .catch(err => {
-      if(streamEl) streamEl.innerHTML = '<div style="color:var(--cor)">Connection error: ' + err.message + '. Make sure Flask is running on port 5000.</div>';
-    });
-}
-
-function generateRoadmap(founderSlug){
-  fetch('/api/generate/' + founderSlug + '/roadmap')
-    .then(response => {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      function read(){
-        return reader.read().then(({done, value}) => {
-          if(done) return;
-          const text = decoder.decode(value);
-          const lines = text.split('\n');
-          lines.forEach(line => {
-            if(line.startsWith('data: ')){
-              const chunk = line.slice(6);
-              if(chunk === '[DONE]'){
-                const notif = document.createElement('div');
-                notif.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--nv);color:#000;padding:14px 20px;border-radius:10px;font-weight:700;font-size:13px;z-index:9999;box-shadow:0 4px 20px rgba(118,185,0,0.3)';
-                notif.innerHTML = '✓ Vision Brief + 12-Month Roadmap saved to outputs/';
-                document.body.appendChild(notif);
-                setTimeout(()=>notif.remove(), 5000);
-              }
-            }
-          });
-          return read();
-        });
-      }
-      return read();
-    })
-    .catch(err => console.error('Roadmap error:', err));
-}
-
 function handleEnter(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 </script>
+
+<!-- ── INTRO OVERLAY ── -->
+<div class="intro-overlay" id="intro-overlay">
+  <div class="intro-content">
+    <div class="io-beat io-eyebrow" id="io-eyebrow">Incoming Assignment</div>
+    <div class="io-beat io-introducing" id="io-introducing">Introducing</div>
+    <div class="io-beat io-name" id="io-name">Maya Chen</div>
+    <div class="io-beat io-company" id="io-company">ClaraVision</div>
+    <div class="io-beat io-meta" id="io-meta">Medical Imaging AI · Houston, TX</div>
+    <div class="io-beat io-rule" id="io-rule"></div>
+    <div class="io-beat io-ctx" id="io-ctx">
+      <p class="mono">Joined 14 days ago · First meeting pending</p>
+      <p>Aria has prepared her brief. Read it before your first conversation.</p>
+    </div>
+    <button class="io-btn io-beat" id="io-btn" onclick="startBriefFlow()">Get to Know Maya →</button>
+    <button class="io-dismiss io-beat" id="io-dismiss" onclick="dismissOverlay()">Remind me later</button>
+  </div>
+</div>
+
+<!-- ── REGEN MODAL ── -->
+<div class="modal-overlay" id="regen-modal">
+  <div class="modal-box">
+    <div class="modal-title">Regenerate Founder Brief?</div>
+    <div class="modal-sub">Maya changed her deployment target from on-premise to hybrid cloud. This affects her stack recommendation, compliance architecture, and milestones 2 and 3.</div>
+    <div class="modal-changes">
+      <div class="mc-row"><div class="mc-field">Deployment Target</div><div class="mc-old">On-Premise</div><div class="mc-arr">→</div><div class="mc-new">Hybrid Cloud</div></div>
+      <div class="mc-row"><div class="mc-field">Stack Recommendation</div><div class="mc-impact">Will be updated</div></div>
+      <div class="mc-row"><div class="mc-field">Milestones 2 &amp; 3</div><div class="mc-impact">Will be revised</div></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-p" onclick="triggerRegenBrief()">Regenerate Brief</button>
+      <button class="modal-btn-s" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MESSAGE COMPOSER ── -->
+<div class="composer" id="composer">
+  <div class="composer-hdr">
+    <div>
+      <div class="composer-title">Draft Message to Maya</div>
+      <div class="composer-sub">Aria drafted this based on her profile change</div>
+    </div>
+    <button class="composer-close" onclick="closeComposer()">✕</button>
+  </div>
+  <textarea class="composer-ta" id="composer-ta">Hey Maya — I noticed you updated your deployment approach to hybrid cloud. I'd love to understand what's driving that shift. Can we find 20 minutes this week to talk through it? I want to make sure your roadmap reflects where you're actually heading.</textarea>
+  <div class="composer-note">Drafted by Aria · Edit before sending</div>
+  <div class="composer-btns">
+    <button class="comp-send" onclick="sendComposerMessage()">Send Message</button>
+    <button class="comp-copy" onclick="copyComposerMessage()">Copy to Clipboard</button>
+  </div>
+</div>
+
+<!-- ── AGENDA TRANSITION ── -->
+<div class="agenda-trans" id="agenda-trans">
+  <div class="at-logo"></div>
+  <div class="at-text">Aria prepared your agenda.</div>
+  <div class="at-bar"><div class="at-fill" id="at-fill"></div></div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── PORTAL SWITCHER ──
+function switchPortal(target){
+  if(target==='founder') window.open('http://127.0.0.1:5000/founder','_blank');
+  else window.open('http://127.0.0.1:5000','_blank');
+}
+
+// ── INTRO OVERLAY ──
+function showIntroOverlay(){
+  const o=document.getElementById('intro-overlay');
+  o.classList.add('visible');
+  const beats=[
+    {id:'io-eyebrow',delay:200},
+    {id:'io-introducing',delay:700},
+    {id:'io-name',delay:1200},
+    {id:'io-company',delay:1800},
+    {id:'io-meta',delay:2200},
+    {id:'io-rule',delay:2800},
+    {id:'io-ctx',delay:3200},
+    {id:'io-btn',delay:4000},
+    {id:'io-dismiss',delay:4400}
+  ];
+  beats.forEach(({id,delay})=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.style.animation=`fadeUpIn 0.4s ease forwards`;
+        el.style.opacity='1';
+      }
+    },delay);
+  });
+}
+
+function dismissOverlay(){
+  const o=document.getElementById('intro-overlay');
+  o.style.opacity='0';
+  setTimeout(()=>{o.classList.remove('visible');},300);
+}
+
+// ── BRIEF POPULATION FLOW ──
+function startBriefFlow(){
+  dismissOverlay();
+  setTimeout(()=>{
+    goTo('brief');
+    setTimeout(()=>populateBrief(),500);
+  },350);
+}
+
+function populateBrief(){
+  // Show status bar
+  const statusBar=document.getElementById('brief-status');
+  if(statusBar) statusBar.style.display='flex';
+
+  // Collect all brief-body elements
+  const bodies=document.querySelectorAll('#screen-brief .brief-body');
+  const checks=document.querySelectorAll('#screen-brief .brief-hdr');
+
+  // Add shimmer to all bodies initially
+  bodies.forEach(b=>{
+    b.style.opacity='0';
+    b.style.transition='opacity 0.3s';
+  });
+
+  // Add checkmarks to all headers
+  document.querySelectorAll('#screen-brief .brief-hdr-label').forEach(h=>{
+    const chk=document.createElement('span');
+    chk.className='brief-section-check';
+    chk.textContent='✓';
+    chk.style.marginLeft='auto';
+    h.parentElement.appendChild(chk);
+  });
+
+  let delay=300;
+  const sectionDelay=2200;
+
+  bodies.forEach((body,i)=>{
+    setTimeout(()=>{
+      body.style.opacity='1';
+      // Show checkmark for this section's header
+      const checks=document.querySelectorAll('.brief-section-check');
+      if(checks[i]) checks[i].classList.add('done');
+
+      // Show complete state after last section
+      if(i===bodies.length-1){
+        setTimeout(()=>completeBrief(),800);
+      }
+    }, delay + (i * sectionDelay));
+  });
+}
+
+function completeBrief(){
+  // Update status bar
+  const dot=document.getElementById('brief-status-dot');
+  const text=document.getElementById('brief-status-text');
+  const statusBar=document.getElementById('brief-status');
+  if(dot) dot.style.animation='none';
+  if(text) text.textContent='Brief ready · Generated by Aria · Day 1 · '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  if(statusBar) statusBar.style.color='var(--dim)';
+
+  // Show banner
+  const banner=document.getElementById('brief-banner');
+  if(banner){ banner.style.display='block'; }
+
+  // Show ack button
+  const ackBtn=document.getElementById('brief-ack-btn');
+  if(ackBtn){ ackBtn.style.display='block'; }
+
+  // Scroll to bottom
+  setTimeout(()=>{
+    const main=document.getElementById('main');
+    if(main) main.scrollTop=main.scrollHeight;
+  },300);
+}
+
+// ── BRIEF ACKNOWLEDGMENT ──
+function acknowledgeBrief(){
+  const btn=document.getElementById('brief-ack-btn');
+  const done=document.getElementById('brief-ack-done');
+  const nextStep=document.getElementById('brief-next-step');
+  const timeEl=document.getElementById('brief-ack-time');
+
+  if(btn) btn.style.display='none';
+
+  const now=new Date();
+  if(timeEl) timeEl.textContent=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  if(done) done.style.display='block';
+
+  setTimeout(()=>{
+    if(nextStep) nextStep.style.display='block';
+    // Remove new founder badge
+    const badge=document.getElementById('new-founder-badge');
+    if(badge) badge.style.display='none';
+    // Scroll
+    const main=document.getElementById('main');
+    if(main) main.scrollTo({top:main.scrollHeight,behavior:'smooth'});
+  },500);
+}
+
+// ── AGENDA TRANSITION ──
+function openKickoffAgenda(){
+  const trans=document.getElementById('agenda-trans');
+  const fill=document.getElementById('at-fill');
+  trans.classList.add('show');
+  setTimeout(()=>{
+    if(fill) fill.style.transition='width 0.8s ease';
+    if(fill) fill.style.width='100%';
+  },100);
+  setTimeout(()=>{
+    trans.classList.remove('show');
+    if(fill){ fill.style.transition='none'; fill.style.width='0'; }
+    goTo('agenda');
+  },1200);
+}
+
+// ── PROFILE CHANGE ──
+function showProfileChange(){
+  const pcb=document.getElementById('pcb');
+  if(pcb) pcb.classList.add('show');
+}
+
+function showRegenModal(){
+  document.getElementById('regen-modal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('regen-modal').classList.remove('show');
+}
+function triggerRegenBrief(){
+  closeModal();
+  goTo('brief');
+  setTimeout(()=>{
+    const statusText=document.getElementById('brief-status-text');
+    if(statusText) statusText.textContent='Aria is regenerating Maya's brief based on her profile updates...';
+    const statusBar=document.getElementById('brief-status');
+    if(statusBar){ statusBar.style.display='flex'; statusBar.style.color='var(--amb)'; }
+    const dot=document.getElementById('brief-status-dot');
+    if(dot){ dot.style.background='var(--amb)'; dot.style.animation='pulse 1s infinite'; }
+    setTimeout(()=>populateBrief(),1000);
+  },400);
+}
+
+// ── MESSAGE COMPOSER ──
+function showComposer(){
+  document.getElementById('composer').classList.add('show');
+}
+function closeComposer(){
+  document.getElementById('composer').classList.remove('show');
+}
+function sendComposerMessage(){
+  closeComposer();
+  showToast('✓ Message sent to Maya');
+}
+function copyComposerMessage(){
+  const ta=document.getElementById('composer-ta');
+  if(ta) navigator.clipboard.writeText(ta.value).catch(()=>{});
+  showToast('✓ Copied to clipboard');
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── ACTIVITY CHANGE ITEM (demo trigger) ──
+// Auto-show profile change bar when navigating to Maya screen
+const origGoTo=goTo;
+function goTo(tab){
+  origGoTo(tab);
+  if(tab==='maya'){
+    setTimeout(()=>showProfileChange(),300);
+  }
+}
+</script>
+
 </body>
 </html>
 <script>

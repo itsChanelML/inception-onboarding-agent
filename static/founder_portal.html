@@ -495,6 +495,150 @@ label{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1px;
   display:inline-block;animation:tb 1.2s infinite}
 .tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
 @keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
+
+/* ── PORTAL SWITCHER ── */
+.portal-switcher{display:inline-flex;background:var(--card2);border:1px solid var(--bdr);border-radius:20px;padding:3px;gap:2px;position:absolute;left:50%;transform:translateX(-50%)}
+.ps-opt{padding:6px 16px;border-radius:16px;border:none;background:transparent;color:var(--sub);font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s ease;white-space:nowrap}
+.ps-opt:hover{color:var(--txt)}
+.ps-active{background:var(--nv) !important;color:#000 !important}
+
+/* ── WELCOME OVERLAY ── */
+.welcome-overlay{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.welcome-overlay.hidden{display:none}
+@keyframes fadeUpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes particleDrift{0%{transform:translateY(0) translateX(0);opacity:.3}50%{opacity:.6}100%{transform:translateY(-40px) translateX(20px);opacity:0}}
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--nv);animation:particleDrift linear infinite}
+.wo-content{text-align:center;max-width:540px;padding:40px 20px;position:relative;z-index:2}
+.wo-beat{opacity:0}
+.wo-logo{width:40px;height:40px;background:var(--nv);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);margin:0 auto 16px}
+.wo-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:20px}
+.wo-heading{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:800;color:var(--txt);line-height:1.05;margin-bottom:20px}
+.wo-heading .name-highlight{color:var(--nv)}
+.wo-subtext{font-size:16px;color:var(--sub);line-height:1.7;max-width:440px;margin:0 auto 24px}
+.wo-manager-card{background:var(--card2);border:1px solid var(--bdr);border-left:3px solid var(--blu);border-radius:var(--r);padding:20px 24px;text-align:left;max-width:400px;margin:0 auto 28px}
+.wm-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blu);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.wm-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.wm-title{font-size:12px;color:var(--sub);margin-bottom:8px}
+.wm-divider{height:1px;background:var(--bdr);margin-bottom:8px}
+.wm-note{font-size:13px;color:var(--sub);line-height:1.5}
+.wo-btn{padding:16px 40px;background:var(--nv);color:#000;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .15s;display:block;margin:0 auto}
+.wo-btn:hover{background:var(--nv-d);transform:scale(1.02)}
+.wo-hint{font-size:12px;color:var(--dim);margin-top:10px;text-align:center}
+
+/* ── SMART ONBOARDING ── */
+.ob-smart-layout{display:grid;grid-template-columns:1fr 380px;height:calc(100vh - 56px);overflow:hidden}
+.ob-conversation{display:flex;flex-direction:column;border-right:1px solid var(--bdr);overflow:hidden}
+.ob-conv-header{padding:20px 24px 16px;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.ob-progress-dots{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--card2);border:1px solid var(--bdr);flex-shrink:0;transition:all .3s}
+.ob-dot.active{background:var(--nv);border-color:var(--nv);transform:scale(1.2)}
+.ob-dot.done{background:var(--nv);border-color:var(--nv)}
+.ob-dot.done::after{content:'✓';font-size:7px;color:#000;display:flex;align-items:center;justify-content:center;height:100%}
+.ob-chapter-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--nv);letter-spacing:2px;text-transform:uppercase}
+.ob-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.ob-messages::-webkit-scrollbar{width:3px}
+.ob-messages::-webkit-scrollbar-thumb{background:var(--dim)}
+.ob-msg-aria{align-self:flex-start;max-width:85%}
+.ob-bubble{background:var(--card2);border:1px solid var(--bdr);border-radius:var(--r) var(--r) var(--r) 4px;padding:14px 16px;font-size:13px;color:var(--txt);line-height:1.65}
+.ob-chips-wrap{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}
+.ob-chip{padding:8px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:20px;font-size:12px;color:var(--sub);cursor:pointer;transition:all .15s;user-select:none}
+.ob-chip:hover{border-color:var(--nv-b2);color:var(--txt)}
+.ob-chip.selected{background:var(--nv-glow);border-color:var(--nv-b);color:var(--nv)}
+.ob-chip.other-chip{font-style:italic;color:var(--dim)}
+.ob-input-row{padding:12px 24px;border-top:1px solid var(--bdr);display:flex;gap:10px;align-items:flex-end;flex-shrink:0}
+.ob-input{flex:1;resize:none;min-height:40px;max-height:80px;background:var(--card2);border:1px solid var(--bdr);border-radius:20px;padding:10px 16px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:13px;outline:none;transition:border .2s}
+.ob-input:focus{border-color:var(--nv-b)}
+.ob-send{width:40px;height:40px;border-radius:50%;background:var(--nv);border:none;color:#000;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.ob-send:hover{background:var(--nv-d)}
+
+/* ── LIVE PROFILE PANEL ── */
+.ob-profile-panel{background:var(--bg2);overflow-y:auto;padding:20px}
+.ob-profile-panel::-webkit-scrollbar{width:3px}
+.ob-profile-panel::-webkit-scrollbar-thumb{background:var(--dim)}
+.opp-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.opp-progress{margin-bottom:16px}
+.opp-prog-label{font-size:11px;color:var(--sub);margin-bottom:4px}
+.opp-bar{height:3px;background:var(--card2);border-radius:2px;overflow:hidden}
+.opp-fill{height:100%;background:var(--nv);width:0;transition:width .6s ease}
+.opp-field{padding:8px 0;border-bottom:1px solid var(--bdr2);display:flex;flex-direction:column;gap:3px}
+.opp-field:last-of-type{border-bottom:none}
+.opp-field-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+.opp-field-value{font-size:12px;color:var(--txt);font-weight:500}
+.opp-placeholder{height:12px;background:var(--card2);border-radius:2px;width:70%;animation:shimmerSweep 1.5s infinite}
+@keyframes shimmerSweep{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.opp-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.opp-pill{padding:2px 8px;background:var(--nv-glow);border:1px solid var(--nv-b2);border-radius:10px;font-size:10px;color:var(--nv);font-family:'JetBrains Mono',monospace}
+.opp-docs-section{margin-top:16px}
+.opp-doc-card{background:var(--card);border:1px solid var(--bdr);border-left:3px solid var(--dim);border-radius:var(--rsm);padding:10px 12px;margin-bottom:8px;transition:border-color .3s}
+.opp-doc-card.unlocked{border-left-color:var(--nv)}
+.opp-doc-card.unlocked .opp-doc-status{color:var(--nv)}
+.opp-doc-name{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:2px}
+.opp-doc-status{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);transition:color .3s}
+
+/* ── ONBOARDING COMPLETION ── */
+.ob-complete{position:fixed;inset:0;background:var(--bg);z-index:900;display:none;align-items:center;justify-content:center;flex-direction:column}
+.ob-complete.show{display:flex}
+.oc-content{text-align:center;max-width:560px;padding:40px 20px}
+.oc-circle{width:64px;height:64px;border-radius:50%;border:2px solid var(--nv);margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--nv);animation:circleIn .6s ease forwards}
+@keyframes circleIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.oc-super{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--nv);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.oc-heading{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:800;line-height:1;margin-bottom:24px}
+.oc-heading .nv{color:var(--nv)}
+.oc-docs{display:flex;flex-direction:column;gap:8px;max-width:400px;margin:0 auto 24px;text-align:left}
+.oc-doc{background:var(--card2);border:1px solid var(--bdr);border-left:3px solid var(--nv);border-radius:var(--rsm);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.oc-doc-name{font-size:12px;font-weight:600;color:var(--txt);flex:1}
+.oc-doc-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);transition:color .3s}
+.oc-doc-status.ready{color:var(--nv)}
+.oc-manager-note{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto}
+.oc-btn{padding:16px 40px;background:var(--nv);color:#000;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .15s}
+.oc-btn:hover{background:var(--nv-d);transform:scale(1.02)}
+.oc-hint{font-size:12px;color:var(--dim);margin-top:10px}
+
+/* ── PROFILE EDIT ── */
+.editable-field{cursor:pointer;border-radius:4px;padding:4px 6px;margin:-4px -6px;transition:background .2s}
+.editable-field:hover{background:var(--card2)}
+.editable-field:focus{outline:1px solid var(--nv-b);background:var(--card2)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--nv);color:#000;padding:12px 20px;border-radius:10px;font-weight:700;font-size:13px;z-index:9999;box-shadow:0 4px 20px rgba(118,185,0,.3);transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;font-family:'Barlow',sans-serif}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── COMMUNITY SCREEN ── */
+.community-layout{display:grid;grid-template-columns:1fr 320px;height:calc(100vh - 56px);overflow:hidden}
+.community-feed{overflow-y:auto;padding:24px}
+.community-feed::-webkit-scrollbar{width:3px}
+.community-feed::-webkit-scrollbar-thumb{background:var(--dim)}
+.community-sidebar{background:var(--bg2);border-left:1px solid var(--bdr);overflow-y:auto;padding:20px}
+.cf-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cf-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--txt)}
+.cf-filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.cf-filter{padding:5px 12px;border-radius:16px;border:1px solid var(--bdr);background:transparent;color:var(--sub);font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s}
+.cf-filter:hover{border-color:var(--nv-b2);color:var(--txt)}
+.cf-filter.active{background:var(--nv-glow);border-color:var(--nv-b);color:var(--nv)}
+.thread-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.thread-card:hover{border-color:var(--nv-b2)}
+.thread-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.thread-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.thread-meta{flex:1}
+.thread-author{font-size:13px;font-weight:600;color:var(--txt)}
+.thread-co{font-size:11px;color:var(--sub)}
+.thread-domain{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:8px;margin-left:auto}
+.thread-content{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px}
+.thread-footer{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--dim)}
+.thread-footer span{display:flex;align-items:center;gap:4px}
+.new-thread-composer{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.ntc-input{width:100%;background:var(--card2);border:1px solid var(--bdr);border-radius:20px;padding:10px 16px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:13px;outline:none;transition:border .2s;cursor:pointer}
+.ntc-input:focus{border-color:var(--nv-b)}
+.cs-search-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.cs-search-input{width:100%;background:var(--card2);border:1px solid var(--bdr);border-radius:var(--rsm);padding:9px 12px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:12px;outline:none;margin-bottom:12px;transition:border .2s}
+.cs-search-input:focus{border-color:var(--nv-b)}
+.cs-top-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.cs-thread-mini{padding:10px 0;border-bottom:1px solid var(--bdr2);cursor:pointer}
+.cs-thread-mini:last-child{border-bottom:none}
+.cs-thread-title{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:3px;line-height:1.4}
+.cs-thread-meta{font-size:11px;color:var(--dim)}
+
 </style>
 </head>
 <body>
@@ -508,6 +652,11 @@ label{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1px;
         <div class="tb-name">Inception Intelligence</div>
       </div>
       <span class="tb-tag">Founder Portal</span>
+    </div>
+    <!-- Portal Switcher -->
+    <div class="portal-switcher">
+      <button class="ps-opt" onclick="switchPortal('manager')">⊞ Manager</button>
+      <button class="ps-opt ps-active" onclick="switchPortal('founder')">◎ Founder</button>
     </div>
     <div class="tb-right">
       <div class="tb-badge"><div class="tb-pulse"></div>Aria Online</div>
@@ -546,6 +695,9 @@ label{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1px;
     <button class="nav-item" id="ni-docs" onclick="goTo('docs')">
       <span class="nav-ico">📁</span>Documents
       <span class="nav-badge">1</span>
+    </button>
+    <button class="nav-item" id="ni-community" onclick="goTo('community')">
+      <span class="nav-ico">◈</span>Community
     </button>
 
     <!-- AI + Human channels pinned at bottom -->
@@ -672,165 +824,113 @@ label{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1px;
     </div>
 
     <!-- ══ ONBOARDING ══ -->
-    <div class="screen" id="screen-onboard">
-      <div class="ob-wrap">
-        <div class="ph-eyebrow" style="margin-bottom:6px">◈ Getting Started</div>
-        <div class="ph-title" style="margin-bottom:20px">Founder Onboarding</div>
+    <div class="screen" id="screen-onboard" style="padding:0;overflow:hidden">
+      <div class="ob-smart-layout">
 
-        <!-- step indicator -->
-        <div class="ob-steps">
-          <div class="ob-step">
-            <div class="ob-dot done" id="sd1">✓</div>
-            <span class="ob-label done" id="sl1">Profile</span>
+        <!-- LEFT: Conversation -->
+        <div class="ob-conversation">
+          <div class="ob-conv-header">
+            <div class="ob-progress-dots">
+              <div class="ob-dot active" title="Vision"></div>
+              <div style="flex:1;height:1px;background:var(--bdr)"></div>
+              <div class="ob-dot" title="Technical"></div>
+              <div style="flex:1;height:1px;background:var(--bdr)"></div>
+              <div class="ob-dot" title="Team"></div>
+              <div style="flex:1;height:1px;background:var(--bdr)"></div>
+              <div class="ob-dot" title="Market"></div>
+              <div style="flex:1;height:1px;background:var(--bdr)"></div>
+              <div class="ob-dot" title="Ask"></div>
+            </div>
+            <div class="ob-chapter-label">Chapter: <span class="ob-chapter-name">Vision</span></div>
           </div>
-          <div class="ob-line done" id="ol1"></div>
-          <div class="ob-step">
-            <div class="ob-dot active" id="sd2">2</div>
-            <span class="ob-label active" id="sl2">Vision</span>
+
+          <div class="ob-messages" id="ob-messages-area">
+            <!-- Aria opening message -->
+            <div class="ob-msg-aria">
+              <div class="ob-bubble">Hi Maya 👋 I'm Aria — your Inception Intelligence advisor. I'll be with you throughout your entire journey in the program.<br><br>Before I can build your Vision Translation Brief and 12-month roadmap, I need to understand what you're building and what you need. This will take about 8 minutes.<br><br>Let's start with the big picture.</div>
+              <div class="ob-chips-wrap">
+                <button class="ob-chip" onclick="obStart()">I'm ready →</button>
+              </div>
+            </div>
           </div>
-          <div class="ob-line" id="ol2"></div>
-          <div class="ob-step">
-            <div class="ob-dot pending" id="sd3">3</div>
-            <span class="ob-label" id="sl3">Stack</span>
-          </div>
-          <div class="ob-line" id="ol3"></div>
-          <div class="ob-step">
-            <div class="ob-dot pending" id="sd4">4</div>
-            <span class="ob-label" id="sl4">Generating</span>
+
+          <div class="ob-input-row">
+            <textarea class="ob-input" id="ob-text-input" placeholder="Or describe it in your own words..." rows="1" onkeypress="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendObInput();}"></textarea>
+            <button class="ob-send" onclick="sendObInput()">↑</button>
           </div>
         </div>
 
-        <!-- PANEL 1 — Profile -->
-        <div class="ob-panel" id="ob-p1">
-          <div class="ob-card">
-            <div class="ob-card-title">Tell us about you</div>
-            <div class="ob-card-sub">This powers your personalized roadmap and Vision Translation document.</div>
-            <div class="social-row" style="margin-bottom:20px">
-              <div class="social-btn connected" id="li-btn" onclick="toggleSocial('li-btn')">
-                <span>in</span> LinkedIn Connected ✓
-              </div>
-              <div class="social-btn" id="web-btn" onclick="toggleSocial('web-btn')">
-                <span>🔗</span> Attach Website
-              </div>
-              <div class="social-btn" id="res-btn" onclick="toggleSocial('res-btn')">
-                <span>📄</span> Upload Resume
-              </div>
+        <!-- RIGHT: Live Profile Panel -->
+        <div class="ob-profile-panel">
+          <div class="opp-label">Your Inception Profile</div>
+          <div class="opp-progress">
+            <div class="opp-prog-label" id="opp-prog-label">Profile 0% complete</div>
+            <div class="opp-bar"><div class="opp-fill" id="opp-fill"></div></div>
+          </div>
+
+          <div style="margin-bottom:16px">
+            <div class="opp-field">
+              <div class="opp-field-label">Name</div>
+              <div class="opp-field-value">Maya Chen</div>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" value="Dr. Maya Chen" />
-              </div>
-              <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" value="ClaraVision" />
-              </div>
-              <div class="form-group form-full">
-                <label>Company Website or Deck URL</label>
-                <input type="text" placeholder="https://claravision.ai" />
-              </div>
-              <div class="form-group">
-                <label>Your Role</label>
-                <input type="text" value="Founder & CEO" />
-              </div>
-              <div class="form-group">
-                <label>Industry Domain</label>
-                <input type="text" value="Medical Imaging AI" />
-              </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Company</div>
+              <div class="opp-field-value">ClaraVision</div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Vision</div>
+              <div class="opp-field-value" id="opp-vision"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Target User</div>
+              <div class="opp-field-value" id="opp-target_user"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Stage</div>
+              <div class="opp-field-value" id="opp-product_stage"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Stack</div>
+              <div class="opp-field-value" id="opp-current_stack"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Deployment</div>
+              <div class="opp-field-value" id="opp-deployment_target"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Compliance</div>
+              <div class="opp-field-value" id="opp-compliance"><div class="opp-placeholder"></div></div>
+            </div>
+            <div class="opp-field">
+              <div class="opp-field-label">Funding</div>
+              <div class="opp-field-value" id="opp-funding_stage"><div class="opp-placeholder"></div></div>
             </div>
           </div>
-          <div class="ob-nav">
-            <div></div>
-            <button class="btn btn-nv" onclick="obNext(2)">Continue →</button>
+
+          <div class="opp-docs-section">
+            <div class="opp-label" style="margin-bottom:10px">Documents Unlocking</div>
+            <div class="opp-doc-card">
+              <div class="opp-doc-name">Vision Translation Brief</div>
+              <div class="opp-doc-status">Locked · Unlocks after Vision chapter</div>
+            </div>
+            <div class="opp-doc-card">
+              <div class="opp-doc-name">NVIDIA Stack Recommendation</div>
+              <div class="opp-doc-status">Locked · Unlocks after Technical chapter</div>
+            </div>
+            <div class="opp-doc-card">
+              <div class="opp-doc-name">12-Month Roadmap</div>
+              <div class="opp-doc-status">Locked · Unlocks after Market chapter</div>
+            </div>
+            <div class="opp-doc-card">
+              <div class="opp-doc-name">CTO Alignment Brief</div>
+              <div class="opp-doc-status">Locked · Unlocks after completion</div>
+            </div>
           </div>
         </div>
 
-        <!-- PANEL 2 — Vision -->
-        <div class="ob-panel active" id="ob-p2">
-          <div class="ob-card">
-            <div class="ob-card-title">Describe your vision</div>
-            <div class="ob-card-sub">Aria uses this to generate your personalized technical brief. Be as specific as possible — this isn't a pitch, it's a conversation.</div>
-            <div class="form-grid">
-              <div class="form-group form-full">
-                <label>What are you building?</label>
-                <textarea style="min-height:90px">An AI system that detects anomalies in MRI and CT scans — helping radiologists catch what the human eye might miss before it becomes critical.</textarea>
-              </div>
-              <div class="form-group form-full">
-                <label>Who does it help and what's the most important outcome?</label>
-                <textarea style="min-height:70px">Radiologists and hospital systems. The outcome that matters is earlier detection — the difference between a treatable finding and a missed diagnosis.</textarea>
-              </div>
-              <div class="form-group">
-                <label>What's your biggest technical challenge right now?</label>
-                <textarea style="min-height:70px">Getting our model to run inside hospital walls — data can't leave their environment. Compliance is the blocker.</textarea>
-              </div>
-              <div class="form-group">
-                <label>What does success look like in 12 months?</label>
-                <textarea style="min-height:70px">First signed hospital partnership. Clinical pilot running. Series A in process.</textarea>
-              </div>
-            </div>
-          </div>
-          <div class="ob-nav">
-            <button class="btn btn-ghost" onclick="obNext(1)">← Back</button>
-            <button class="btn btn-nv" onclick="obNext(3)">Continue →</button>
-          </div>
-        </div>
-
-        <!-- PANEL 3 — Stack -->
-        <div class="ob-panel" id="ob-p3">
-          <div class="ob-card">
-            <div class="ob-card-title">Your current stack</div>
-            <div class="ob-card-sub">Aria will map your existing infrastructure to the NVIDIA ecosystem — no migration required.</div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Cloud Provider</label>
-                <select><option>Google Cloud (GCP)</option><option>AWS</option><option>Azure</option><option>On-Premise Only</option></select>
-              </div>
-              <div class="form-group">
-                <label>ML Framework</label>
-                <select><option>PyTorch</option><option>TensorFlow</option><option>JAX</option><option>Other</option></select>
-              </div>
-              <div class="form-group form-full">
-                <label>NVIDIA tools you've already explored (if any)</label>
-                <input type="text" placeholder="e.g. NIM, CUDA, TensorRT, NeMo..." />
-              </div>
-              <div class="form-group form-full">
-                <label>Anything else Aria should know about your infrastructure?</label>
-                <textarea style="min-height:70px" placeholder="Team size, compliance requirements, current deployment environment...">Team of 4 engineers. HIPAA compliance is non-negotiable. Currently running inference on GCP but need on-prem option for hospital clients.</textarea>
-              </div>
-            </div>
-          </div>
-          <div class="ob-nav">
-            <button class="btn btn-ghost" onclick="obNext(2)">← Back</button>
-            <button class="btn btn-nv" onclick="startGenerating()">Generate My Brief →</button>
-          </div>
-        </div>
-
-        <!-- PANEL 4 — Generating -->
-        <div class="ob-panel" id="ob-p4">
-          <div class="gen-wrap">
-            <div class="gen-logo" id="gen-logo"></div>
-            <div class="gen-title" id="gen-title">Aria is analyzing your profile…</div>
-            <div class="gen-sub" id="gen-sub">This takes about 30 seconds. We're generating three outputs simultaneously.</div>
-            <div class="gen-steps">
-              <div class="gen-step active" id="gs1"><span class="gs-ico">⬡</span>Mapping your vision to NVIDIA infrastructure</div>
-              <div class="gen-step" id="gs2"><span class="gs-ico">◎</span>Building your personalized 12-month roadmap</div>
-              <div class="gen-step" id="gs3"><span class="gs-ico">📄</span>Generating Vision Translation Brief</div>
-              <div class="gen-step" id="gs4"><span class="gs-ico">👤</span>Preparing your Manager's New Founder Brief</div>
-            </div>
-            <div id="gen-done" style="display:none;margin-top:32px">
-              <div style="font-size:13px;color:var(--sub);margin-bottom:16px">
-                Everything is ready. Your manager has been briefed and will reach out within 4 hours.
-              </div>
-              <button class="btn btn-nv" onclick="goTo('home')" style="font-size:14px;padding:12px 28px">
-                Enter Your Portal →
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- ══ ROADMAP ══ -->
     <div class="screen" id="screen-roadmap">
       <div class="ph">
         <div>
@@ -1546,6 +1646,122 @@ label{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:1px;
       </div>
     </div>
 
+
+    <!-- ══ COMMUNITY ══ -->
+    <div class="screen" id="screen-community">
+      <div class="community-layout">
+        <div class="community-feed">
+          <div class="cf-header">
+            <div class="cf-title">Founder Community</div>
+            <button class="btn btn-nv" style="font-size:12px;padding:7px 14px">+ Post</button>
+          </div>
+          <div class="cf-filters">
+            <button class="cf-filter active">All</button>
+            <button class="cf-filter">Technical</button>
+            <button class="cf-filter">Milestones</button>
+            <button class="cf-filter">Wins</button>
+            <button class="cf-filter">Questions</button>
+          </div>
+          <div class="new-thread-composer">
+            <input class="ntc-input" placeholder="Share something with the community..." readonly onclick="this.placeholder='What\'s on your mind?'">
+          </div>
+
+          <div class="thread-card">
+            <div class="thread-header">
+              <div class="thread-av" style="background:linear-gradient(135deg,#001228,#003060);color:var(--blu)">RK</div>
+              <div class="thread-meta">
+                <div class="thread-author">Ravi Krishnamurthy</div>
+                <div class="thread-co">NovaCrop AI · Precision Agriculture</div>
+              </div>
+              <span class="thread-domain" style="background:rgba(118,185,0,.1);color:var(--nv);border:1px solid var(--nv-b2)">Edge AI</span>
+            </div>
+            <div class="thread-content">Just hit Milestone 4 — first paying customer signed ($4,800/season). The TAO fine-tuning finally clicked when I stopped trying to achieve perfection on the full dataset and did domain-specific subsets first. Happy to share the workflow if anyone's struggling with TAO on limited labeled data.</div>
+            <div class="thread-footer">
+              <span>🕐 2 hours ago</span>
+              <span>💬 8 replies</span>
+              <span>👍 14 likes</span>
+            </div>
+          </div>
+
+          <div class="thread-card">
+            <div class="thread-header">
+              <div class="thread-av" style="background:linear-gradient(135deg,#001a00,#003000);color:var(--nv)">ST</div>
+              <div class="thread-meta">
+                <div class="thread-author">Sofia Torres</div>
+                <div class="thread-co">Quantum Dx · Genomics</div>
+              </div>
+              <span class="thread-domain" style="background:rgba(212,154,60,.1);color:var(--amb);border:1px solid rgba(212,154,60,.2)">Healthcare AI</span>
+            </div>
+            <div class="thread-content">Has anyone gotten Parabricks running on a GKE cluster with HIPAA controls in place? I'm hitting IAM permission issues on the GPU node pool and Aria's answer was technically correct but missing something specific to our Confidential VM setup.</div>
+            <div class="thread-footer">
+              <span>🕐 5 hours ago</span>
+              <span>💬 4 replies</span>
+              <span>👍 6 likes</span>
+            </div>
+          </div>
+
+          <div class="thread-card">
+            <div class="thread-header">
+              <div class="thread-av" style="background:linear-gradient(135deg,#1a0010,#380020);color:#ff6b9d">LN</div>
+              <div class="thread-meta">
+                <div class="thread-author">Lena Nakamura</div>
+                <div class="thread-co">StructureIQ · Construction AI</div>
+              </div>
+              <span class="thread-domain" style="background:rgba(74,158,255,.1);color:var(--blu);border:1px solid var(--blu-b)">Physical AI</span>
+            </div>
+            <div class="thread-content">6 months in, Premiere Tier achieved. For anyone early in the program — the milestone that changed everything for us was getting our first co-marketing asset with NVIDIA. Once we had that logo on our deck, investor conversations changed completely. Don't sleep on the go-to-market support.</div>
+            <div class="thread-footer">
+              <span>🕐 Yesterday</span>
+              <span>💬 22 replies</span>
+              <span>👍 47 likes</span>
+            </div>
+          </div>
+
+          <div class="thread-card">
+            <div class="thread-header">
+              <div class="thread-av" style="background:linear-gradient(135deg,#001228,#003060);color:var(--blu)">JM</div>
+              <div class="thread-meta">
+                <div class="thread-author">James Mbeki</div>
+                <div class="thread-co">VoicePathAI · Clinical NLP</div>
+              </div>
+              <span class="thread-domain" style="background:rgba(118,185,0,.1);color:var(--nv);border:1px solid var(--nv-b2)">GenAI</span>
+            </div>
+            <div class="thread-content">Quick NeMo tip for anyone building speech AI for clinical settings: the Riva ASR fine-tuning pipeline works dramatically better if you pre-filter your audio for background noise before submission. Reduced our WER by 18% on clinical dictation. DM me for the preprocessing script.</div>
+            <div class="thread-footer">
+              <span>🕐 2 days ago</span>
+              <span>💬 11 replies</span>
+              <span>👍 29 likes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="community-sidebar">
+          <div class="cs-search-label">Search the Community</div>
+          <input class="cs-search-input" placeholder="Search threads, docs, resolved tickets..." id="community-search">
+          <div style="margin-bottom:16px">
+            <div style="font-size:11px;color:var(--sub);line-height:1.5">Aria searches across community threads, resolved tickets, and NVIDIA documentation simultaneously.</div>
+          </div>
+          <div class="cs-top-label">Top Discussions This Week</div>
+          <div class="cs-thread-mini">
+            <div class="cs-thread-title">How to structure a NIM deployment for HIPAA compliance</div>
+            <div class="cs-thread-meta">Healthcare AI · 34 replies</div>
+          </div>
+          <div class="cs-thread-mini">
+            <div class="cs-thread-title">TAO toolkit — getting from notebook to production in under 2 weeks</div>
+            <div class="cs-thread-meta">Edge AI · 28 replies</div>
+          </div>
+          <div class="cs-thread-mini">
+            <div class="cs-thread-title">The FLARE federated learning setup that finally worked for us</div>
+            <div class="cs-thread-meta">Healthcare AI · 19 replies</div>
+          </div>
+          <div class="cs-thread-mini">
+            <div class="cs-thread-title">Getting the NVIDIA co-marketing asset — what actually qualifies</div>
+            <div class="cs-thread-meta">Program · 16 replies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -1587,86 +1803,27 @@ function toggleSocial(id){
 }
 function startGenerating(){
   obNext(4);
-  // Mark step 1 active immediately
-  document.getElementById('gs1').classList.add('active');
-
-  const founderSlug = 'claravision';
-  let stepIndex = 0;
-  const stepIds = ['gs1','gs2','gs3','gs4'];
-
-  function advanceStep(){
-    if(stepIndex < stepIds.length){
-      document.getElementById(stepIds[stepIndex]).classList.add('done');
-      stepIndex++;
-      if(stepIndex < stepIds.length){
-        document.getElementById(stepIds[stepIndex]).classList.add('active');
-      }
-    }
-  }
-
-  // Start Vision Brief generation
-  setTimeout(()=>advanceStep(), 800);
-
-  fetch(`/api/generate/${founderSlug}/vision_brief`)
-    .then(response => {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let briefContent = '';
-
-      function read(){
-        return reader.read().then(({done, value}) => {
-          if(done) return;
-          const text = decoder.decode(value);
-          const lines = text.split('\n');
-          lines.forEach(line => {
-            if(line.startsWith('data: ')){
-              const chunk = line.slice(6);
-              if(chunk === '[DONE]'){
-                advanceStep();
-                startRoadmapGeneration(founderSlug);
-              } else if(!chunk.startsWith('[GENERATING]') && !chunk.startsWith('[SAVED]') && !chunk.startsWith('ERROR')){
-                briefContent += chunk.replace(/\\n/g, '\n');
-              }
-            }
-          });
-          return read();
-        });
-      }
-      return read();
-    })
-    .catch(err => console.error('Brief generation error:', err));
-}
-
-function startRoadmapGeneration(founderSlug){
-  fetch(`/api/generate/${founderSlug}/roadmap`)
-    .then(response => {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      function read(){
-        return reader.read().then(({done, value}) => {
-          if(done) return;
-          const text = decoder.decode(value);
-          const lines = text.split('\n');
-          lines.forEach(line => {
-            if(line.startsWith('data: ')){
-              const chunk = line.slice(6);
-              if(chunk === '[DONE]'){
-                // All done — show completion state
-                document.getElementById('gen-title').textContent='Everything is ready, Maya.';
-                document.getElementById('gen-sub').textContent='Your Vision Translation Brief and 12-Month Roadmap are in your Documents. Your manager has been briefed.';
-                document.getElementById('gen-logo').style.animation='none';
-                document.getElementById('gen-logo').style.background='var(--nv)';
-                document.getElementById('gen-done').style.display='block';
-              }
-            }
-          });
-          return read();
-        });
-      }
-      return read();
-    })
-    .catch(err => console.error('Roadmap generation error:', err));
+  const steps=[
+    {id:'gs1',delay:800},
+    {id:'gs2',delay:1800},
+    {id:'gs3',delay:2800},
+    {id:'gs4',delay:3800},
+  ];
+  steps.forEach(({id,delay})=>{
+    setTimeout(()=>{
+      document.querySelectorAll('.gen-step').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('done');
+      const next=document.querySelector('.gen-step:not(.done)');
+      if(next)next.classList.add('active');
+    },delay);
+  });
+  setTimeout(()=>{
+    document.getElementById('gen-title').textContent='Everything is ready, Maya.';
+    document.getElementById('gen-sub').textContent='Your Vision Translation Brief is in your profile. Your manager has been briefed.';
+    document.getElementById('gen-logo').style.animation='none';
+    document.getElementById('gen-logo').style.background='var(--nv)';
+    document.getElementById('gen-done').style.display='block';
+  },5200);
 }
 
 // ── TICKET FORM ──
@@ -1699,6 +1856,421 @@ function sendChip(el){const text=el.textContent.trim();addUser(text);el.remove()
 function sendMsg(){const inp=document.getElementById('aria-input'),text=inp.value.trim();if(!text)return;addUser(text);inp.value='';setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addAria("Based on your ClaraVision profile and current compliance milestone, here's how I'd think about this: the NIM self-hosted architecture is the right call for your hospital use case. The key is sequencing — get the egress policy right before the first clinical pilot conversation. Want me to map this out more specifically?");},1600);},300);}
 function handleEnter(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 </script>
+
+<!-- ── WELCOME OVERLAY (first visit) ── -->
+<div class="welcome-overlay" id="welcome-overlay">
+  <div class="particles" id="particles"></div>
+  <div class="wo-content">
+    <div class="wo-beat" id="wo-logo-wrap"><div class="wo-logo"></div></div>
+    <div class="wo-beat" id="wo-eyebrow"><div class="wo-eyebrow">NVIDIA Inception Intelligence</div></div>
+    <div class="wo-beat" id="wo-heading">
+      <div class="wo-heading">Welcome to the<br>program, <span class="name-highlight">Maya.</span></div>
+    </div>
+    <div class="wo-beat" id="wo-sub">
+      <div class="wo-subtext">You've been accepted into NVIDIA Inception — the world's most powerful AI accelerator. What you build here has the potential to become the next Anthropic, Hugging Face, or Canva. Let's get you started.</div>
+    </div>
+    <div class="wo-beat" id="wo-manager">
+      <div class="wo-manager-card">
+        <div class="wm-label">Your Developer Relations Manager</div>
+        <div class="wm-name">Chanel Power</div>
+        <div class="wm-title">Inception DevRel Manager · Group 4</div>
+        <div class="wm-divider"></div>
+        <div class="wm-note">Chanel has reviewed your application and is ready to meet you.</div>
+      </div>
+    </div>
+    <div class="wo-beat" id="wo-btn-wrap">
+      <button class="wo-btn" onclick="startOnboarding()">Begin Your Journey →</button>
+      <div class="wo-hint">Takes about 8 minutes · Your answers power everything that comes next</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ONBOARDING COMPLETION ── -->
+<div class="ob-complete" id="ob-complete">
+  <div class="oc-content">
+    <div class="oc-circle" id="oc-circle">✓</div>
+    <div class="oc-super">Your Profile is Complete</div>
+    <div class="oc-heading">Everything is ready,<br><span class="nv">Maya.</span></div>
+    <div class="oc-docs" id="oc-docs">
+      <div class="oc-doc">
+        <div class="oc-doc-name">Vision Translation Brief</div>
+        <div class="oc-doc-status" id="oc-doc-1">Generating...</div>
+      </div>
+      <div class="oc-doc">
+        <div class="oc-doc-name">NVIDIA Stack Recommendation</div>
+        <div class="oc-doc-status" id="oc-doc-2">Generating...</div>
+      </div>
+      <div class="oc-doc">
+        <div class="oc-doc-name">12-Month Milestone Roadmap</div>
+        <div class="oc-doc-status" id="oc-doc-3">Generating...</div>
+      </div>
+      <div class="oc-doc" style="border-left-color:var(--blu)">
+        <div class="oc-doc-name">CTO Alignment Brief</div>
+        <div class="oc-doc-status" id="oc-doc-4">Generating...</div>
+      </div>
+    </div>
+    <div class="oc-manager-note">Your manager has been notified. Chanel Power will reach out within 24 hours.</div>
+    <button class="oc-btn" onclick="enterPortal()">Enter Your Portal →</button>
+    <div class="oc-hint">Your Vision Translation Brief will be ready in your Documents tab.</div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast-founder"></div>
+
+
+<script>
+// ── PORTAL SWITCHER ──
+function switchPortal(target){
+  if(target==='manager') window.open('http://127.0.0.1:5000','_blank');
+  else window.open('http://127.0.0.1:5000/founder','_blank');
+}
+
+// ── WELCOME OVERLAY ──
+function initWelcome(){
+  const overlay=document.getElementById('welcome-overlay');
+  if(!overlay) return;
+  // Generate particles
+  const particles=document.getElementById('particles');
+  if(particles){
+    for(let i=0;i<20;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      p.style.left=Math.random()*100+'%';
+      p.style.top=Math.random()*100+'%';
+      p.style.animationDuration=(8+Math.random()*12)+'s';
+      p.style.animationDelay=Math.random()*10+'s';
+      p.style.opacity=Math.random()*0.4+0.1;
+      particles.appendChild(p);
+    }
+  }
+  // Animate beats
+  const beats=[
+    {id:'wo-logo-wrap',delay:300},
+    {id:'wo-eyebrow',delay:900},
+    {id:'wo-heading',delay:1400},
+    {id:'wo-sub',delay:2200},
+    {id:'wo-manager',delay:3800},
+    {id:'wo-btn-wrap',delay:4800}
+  ];
+  beats.forEach(({id,delay})=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.style.animation='fadeUpIn 0.5s ease forwards';
+      }
+    },delay);
+  });
+}
+
+function startOnboarding(){
+  const overlay=document.getElementById('welcome-overlay');
+  if(overlay){ overlay.style.opacity='0'; overlay.style.transition='opacity .4s'; setTimeout(()=>overlay.classList.add('hidden'),400); }
+  goTo('onboard');
+}
+
+function enterPortal(){
+  const comp=document.getElementById('ob-complete');
+  if(comp){ comp.style.opacity='0'; comp.style.transition='opacity .4s'; setTimeout(()=>comp.classList.remove('show'),400); }
+  goTo('home');
+}
+
+// ── SMART ONBOARDING ──
+const obQuestions=[
+  {
+    chapter:0,label:'Vision',
+    question:"Let's start with the big picture. What are you building — in your own words, not the pitch version?",
+    chips:["An AI model that solves a specific industry problem","A platform connecting AI to enterprise workflows","A hardware-accelerated solution for real-time processing","Something else — I'll describe it myself"],
+    field:'vision',multi:false
+  },
+  {
+    chapter:0,label:'Vision',
+    question:"Got it. Who is this for — who wakes up with the problem you're solving?",
+    chips:["Clinical or medical professionals","Industrial or manufacturing operators","Developers or technical teams","Enterprise business decision makers"],
+    field:'target_user',multi:false
+  },
+  {
+    chapter:0,label:'Vision',
+    question:"What does winning look like for you — not for the company, for you personally — 12 months from now?",
+    chips:["My product is deployed and being used by real customers","I've raised my next funding round","My team executes the vision without me in every decision","I've proven the technology works at production scale"],
+    field:'success_definition',multi:false
+  },
+  {
+    chapter:1,label:'Technical',
+    question:"Tell me where the technology actually is today — not where you want it to be.",
+    chips:["I have an idea and early research but nothing built yet","I have a working prototype on my local machine","I have an MVP that a small group has tested","I have a product in early production with real users"],
+    field:'product_stage',multi:false
+  },
+  {
+    chapter:1,label:'Technical',
+    question:"What does your current technical stack look like? Select all that apply.",
+    chips:["PyTorch","TensorFlow","JAX","Hugging Face","MONAI","Custom architecture"],
+    field:'current_stack',multi:true
+  },
+  {
+    chapter:1,label:'Technical',
+    question:"Where does your product need to run — who controls the infrastructure?",
+    chips:["In a public cloud — AWS, GCP, or Azure","On the customer's own servers — fully on-premise","A hybrid of cloud and on-premise","At the edge — on a device, drone, or embedded system"],
+    field:'deployment_target',multi:false
+  },
+  {
+    chapter:1,label:'Technical',
+    question:"Are there any compliance or regulatory requirements in your space? Select all that apply.",
+    chips:["HIPAA — healthcare data","SOC 2 — enterprise security","FedRAMP — government","GDPR — European data","No specific requirements"],
+    field:'compliance',multi:true
+  },
+  {
+    chapter:2,label:'Team',
+    question:"Who's building this with you?",
+    chips:["Just me right now — solo founder","Me and a co-founder","Small team — 3 to 5 people","Larger team — 6 or more"],
+    field:'team_size',multi:false
+  },
+  {
+    chapter:2,label:'Team',
+    question:"Where does technical decision-making live on your team?",
+    chips:["I make the technical decisions — I'm the technical founder","My CTO or lead engineer leads technical direction","We decide together — it's collaborative","I have a technical advisor but no full-time technical lead"],
+    field:'cto_background',multi:false
+  },
+  {
+    chapter:3,label:'Market',
+    question:"Who is your first paying customer — or who should be?",
+    chips:["A hospital or healthcare system","An enterprise company in my industry","A government agency","A developer or technical team","Consumers — individuals using the product directly"],
+    field:'first_customer',multi:false
+  },
+  {
+    chapter:3,label:'Market',
+    question:"Where are you on funding?",
+    chips:["Bootstrapped — self-funded, no outside investment","Pre-seed — friends, family, or angels","Seed round — institutional investors","Series A or beyond"],
+    field:'funding_stage',multi:false
+  },
+  {
+    chapter:4,label:'Ask',
+    question:"Last one. What do you need most from this program right now — be honest, there's no wrong answer.",
+    chips:["Technical help — I'm stuck on architecture or deployment","Validation — I need to know if my approach is right","Connections — introductions to customers, partners, or investors","Visibility — co-marketing, press, or showcase opportunities","Credits and infrastructure — I need GPU access to move faster"],
+    field:'primary_ask',multi:false
+  }
+];
+
+let obCurrentQ=0;
+let obProfile={};
+let obSelectedChips=[];
+
+function renderQuestion(idx){
+  const q=obQuestions[idx];
+  if(!q) { finishOnboarding(); return; }
+
+  // Update progress dots
+  document.querySelectorAll('.ob-dot').forEach((dot,i)=>{
+    dot.classList.remove('active','done');
+    if(i<q.chapter) dot.classList.add('done');
+    else if(i===q.chapter) dot.classList.add('active');
+  });
+  document.querySelectorAll('.ob-chapter-name').forEach(el=>el.textContent=q.label);
+
+  const msgs=document.getElementById('ob-messages-area');
+  if(!msgs) return;
+
+  // Add Aria message
+  const msgEl=document.createElement('div');
+  msgEl.className='ob-msg-aria';
+  msgEl.innerHTML=`<div class="ob-bubble">${q.question}</div>`;
+
+  // Add chips after delay
+  const chipsWrap=document.createElement('div');
+  chipsWrap.className='ob-chips-wrap';
+  q.chips.forEach((chip,ci)=>{
+    const btn=document.createElement('button');
+    btn.className='ob-chip'+(ci===q.chips.length-1?' other-chip':'');
+    btn.textContent=chip;
+    btn.style.animationDelay=(ci*0.08)+'s';
+    btn.onclick=()=>selectChip(btn,chip,q);
+    chipsWrap.appendChild(btn);
+  });
+  msgEl.appendChild(chipsWrap);
+
+  msgs.appendChild(msgEl);
+  msgs.scrollTop=msgs.scrollHeight;
+
+  obSelectedChips=[];
+  updateProfilePanel(q);
+}
+
+function selectChip(btn,text,q){
+  if(q.multi){
+    btn.classList.toggle('selected');
+    if(btn.classList.contains('selected')) obSelectedChips.push(text);
+    else obSelectedChips=obSelectedChips.filter(c=>c!==text);
+    if(obSelectedChips.length>0){
+      let doneBtn=btn.closest('.ob-chips-wrap').querySelector('.ob-done-btn');
+      if(!doneBtn){
+        doneBtn=document.createElement('button');
+        doneBtn.className='ob-chip ob-done-btn';
+        doneBtn.style.background='var(--nv)';
+        doneBtn.style.color='#000';
+        doneBtn.style.border='none';
+        doneBtn.textContent='Done →';
+        doneBtn.onclick=()=>submitChips(q,obSelectedChips.join(', '));
+        btn.closest('.ob-chips-wrap').appendChild(doneBtn);
+      }
+    }
+  } else {
+    obProfile[q.field]=text;
+    btn.classList.add('selected');
+    btn.closest('.ob-chips-wrap').querySelectorAll('.ob-chip').forEach(c=>{
+      if(c!==btn) c.style.opacity='0.4';
+      c.style.pointerEvents='none';
+    });
+    setTimeout(()=>nextQuestion(q,text),600);
+  }
+}
+
+function submitChips(q,val){
+  obProfile[q.field]=val;
+  document.querySelectorAll('#ob-messages-area .ob-chip').forEach(c=>{c.style.pointerEvents='none';});
+  setTimeout(()=>nextQuestion(q,val),400);
+}
+
+function nextQuestion(q,answer){
+  const msgs=document.getElementById('ob-messages-area');
+  // Add founder response bubble
+  const resp=document.createElement('div');
+  resp.style.cssText='align-self:flex-end;max-width:80%';
+  resp.innerHTML=`<div style="background:var(--nv-glow);border:1px solid var(--nv-b2);border-radius:var(--r) var(--r) 4px var(--r);padding:10px 14px;font-size:13px;color:var(--txt)">${answer}</div>`;
+  msgs.appendChild(resp);
+  msgs.scrollTop=msgs.scrollHeight;
+
+  obCurrentQ++;
+  updateProfileProgress();
+
+  // Move to next question after brief pause
+  setTimeout(()=>renderQuestion(obCurrentQ),800);
+}
+
+function sendObInput(){
+  const inp=document.getElementById('ob-text-input');
+  const text=inp.value.trim();
+  if(!text) return;
+  const q=obQuestions[obCurrentQ];
+  if(q){ obProfile[q.field]=text; }
+  inp.value='';
+  nextQuestion(q||{},text);
+}
+
+function updateProfileProgress(){
+  const pct=Math.round((obCurrentQ/obQuestions.length)*100);
+  const fill=document.getElementById('opp-fill');
+  const label=document.getElementById('opp-prog-label');
+  if(fill) fill.style.width=pct+'%';
+  if(label) label.textContent='Profile '+pct+'% complete';
+}
+
+function updateProfilePanel(q){
+  // Map question fields to panel display
+  const fieldMap={
+    'vision':'Vision',
+    'target_user':'Target User',
+    'product_stage':'Stage',
+    'current_stack':'Stack',
+    'deployment_target':'Deployment',
+    'compliance':'Compliance',
+    'team_size':'Team',
+    'funding_stage':'Funding',
+    'primary_ask':'Primary Ask'
+  };
+  Object.keys(obProfile).forEach(key=>{
+    const el=document.getElementById('opp-'+key);
+    if(el){
+      el.style.opacity='0';
+      el.style.transition='opacity .3s';
+      setTimeout(()=>{
+        el.textContent=obProfile[key];
+        el.style.opacity='1';
+      },100);
+    }
+  });
+
+  // Unlock doc cards
+  const docThresholds={0:3,1:5,2:8,3:10,4:12};
+  Object.keys(docThresholds).forEach(docIdx=>{
+    if(obCurrentQ>=docThresholds[docIdx]){
+      const doc=document.querySelector('.opp-doc-card:nth-child('+(parseInt(docIdx)+1)+')');
+      if(doc) doc.classList.add('unlocked');
+    }
+  });
+}
+
+function finishOnboarding(){
+  const comp=document.getElementById('ob-complete');
+  if(comp) comp.classList.add('show');
+
+  // Animate docs ready
+  const delays=[3000,5000,7000,9000];
+  delays.forEach((delay,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById('oc-doc-'+(i+1));
+      if(el){ el.textContent='Ready ✓'; el.classList.add('ready'); }
+    },delay);
+  });
+}
+
+// ── PROFILE EDIT ──
+function makeEditable(el){
+  el.contentEditable='true';
+  el.classList.add('editable-field');
+  el.focus();
+  el.addEventListener('blur',()=>{
+    el.contentEditable='false';
+    el.classList.remove('editable-field');
+    showFounderToast('✓ Saved');
+  },{once:true});
+}
+
+// ── COMMUNITY SEARCH ──
+document.addEventListener('DOMContentLoaded',()=>{
+  const searchInput=document.getElementById('community-search');
+  if(searchInput){
+    searchInput.addEventListener('keypress',(e)=>{
+      if(e.key==='Enter' && searchInput.value.trim()){
+        showFounderToast('Aria is searching threads, tickets, and NVIDIA docs...');
+        setTimeout(()=>showFounderToast('3 results found · See sidebar'),2000);
+        searchInput.value='';
+      }
+    });
+  }
+
+  // Community filter tabs
+  document.querySelectorAll('.cf-filter').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.cf-filter').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+});
+
+// ── TOAST ──
+function showFounderToast(msg){
+  const t=document.getElementById('toast-founder');
+  if(!t) return;
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── OB START ──
+function obStart(){
+  const btn=document.querySelector('#ob-messages-area .ob-chip');
+  if(btn){ btn.style.pointerEvents='none'; btn.style.opacity='.5'; }
+  obCurrentQ=0;
+  setTimeout(()=>renderQuestion(0),400);
+}
+
+// ── INIT ──
+// Show welcome overlay only on "first visit" — for demo just show it
+// Comment out initWelcome() to skip to main portal
+initWelcome();
+
+</script>
+
 </body>
 </html>
 <!-- placeholder to detect EOF -->
