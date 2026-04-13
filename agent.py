@@ -11,7 +11,7 @@ load_dotenv()
 
 NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
 NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
-MODEL = "nvidia/nemotron-3-super-120b-a12b"
+MODEL = "nvidia/nemotron-super-49b-v1"
 
 # ── Load Files ─────────────────────────────────────────────────────────────────
 
@@ -46,7 +46,7 @@ def call_nim(prompt: str, task_name: str) -> str:
         )
 
         completion = client.chat.completions.create(
-            model="nvidia/nemotron-3-super-120b-a12b",
+            model="nvidia/nemotron-super-49b-v1",
             messages=[
                 {
                     "role": "system",
@@ -60,10 +60,6 @@ def call_nim(prompt: str, task_name: str) -> str:
             temperature=1,
             top_p=0.95,
             max_tokens=16384,
-            extra_body={
-                "chat_template_kwargs": {"enable_thinking": True},
-                "reasoning_budget": 16384
-            },
             stream=True
         )
 
