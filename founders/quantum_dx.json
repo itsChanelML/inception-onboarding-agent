@@ -1,0 +1,14 @@
+{
+  "founder_name": "Sofia Torres",
+  "company": "Quantum Dx",
+  "domain": "genomic sequencing",
+  "product": "AI-accelerated genomic variant calling and disease prediction platform",
+  "current_stack": ["PyTorch", "GATK", "BioNeMo"],
+  "nvidia_tools": ["BioNeMo", "DGX Cloud", "NIM"],
+  "funding_stage": "Seed",
+  "primary_challenge": "Parabricks pipeline on GKE with HIPAA Confidential VM controls. IAM permission gaps on GPU node pool.",
+  "compliance_requirements": ["HIPAA", "GDPR"],
+  "deployment_target": "hybrid - GKE cloud + on-premise hospital nodes",
+  "twelve_month_goal": "Deploy variant calling pipeline across 5 genomics labs with sub-hour turnaround on whole genome sequencing",
+  "investor_narrative": "Reducing WGS analysis from 72 hours to under 1 hour unlocks clinical-grade genomics at population scale"
+}

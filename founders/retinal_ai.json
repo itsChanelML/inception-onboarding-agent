@@ -1,0 +1,14 @@
+{
+  "founder_name": "Amara Patel",
+  "company": "RetinalAI",
+  "domain": "ophthalmology screening",
+  "product": "Diabetic retinopathy screening AI for primary care settings",
+  "current_stack": ["PyTorch", "MONAI", "OpenCV"],
+  "nvidia_tools": ["NIM", "Clara", "MONAI"],
+  "funding_stage": "Pre-seed",
+  "primary_challenge": "No recent ticket or Aria activity in 8 days. Milestone 2 at 10% on Day 31. Possible team reshuffle or technical blocker not yet named.",
+  "compliance_requirements": ["HIPAA", "FDA 510(k)"],
+  "deployment_target": "on-premise - primary care clinic hardware",
+  "twelve_month_goal": "FDA 510(k) submission and deployment in 50 primary care clinics across rural markets",
+  "investor_narrative": "Bringing specialist-level retinal screening to primary care eliminates the referral gap that causes 40% of preventable blindness cases"
+}

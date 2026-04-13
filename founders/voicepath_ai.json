@@ -1,0 +1,14 @@
+{
+  "founder_name": "James Mbeki",
+  "company": "VoicePathAI",
+  "domain": "clinical NLP",
+  "product": "Real-time clinical dictation and documentation system for healthcare providers",
+  "current_stack": ["NeMo", "Riva", "PyTorch"],
+  "nvidia_tools": ["NIM", "NeMo", "Riva"],
+  "funding_stage": "Seed",
+  "primary_challenge": "DLI credentials not recognized for NeMo course enrollment. Riva ASR WER 18% higher than target on clinical dictation background noise.",
+  "compliance_requirements": ["HIPAA"],
+  "deployment_target": "cloud - AWS with on-premise option for enterprise",
+  "twelve_month_goal": "10,000 clinical hours transcribed per month with 95% accuracy on medical terminology",
+  "investor_narrative": "Each hour of clinical documentation automated saves 2 physician hours — direct ROI for hospital procurement"
+}

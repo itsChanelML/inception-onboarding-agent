@@ -1,0 +1,14 @@
+{
+  "founder_name": "Lena Nakamura",
+  "company": "StructureIQ",
+  "domain": "construction AI",
+  "product": "Real-time structural defect detection from drone footage on active construction sites",
+  "current_stack": ["PyTorch", "DeepStream", "YOLO"],
+  "nvidia_tools": ["Metropolis", "Jetson Orin", "NIM", "DeepStream"],
+  "funding_stage": "Series A",
+  "primary_challenge": "Scaling from 5 to 50 concurrent drone feeds without inference lag. Multi-site deployment orchestration.",
+  "compliance_requirements": ["OSHA", "ISO 45001"],
+  "deployment_target": "edge - Jetson on drone + cloud aggregation",
+  "twelve_month_goal": "200 active construction sites monitored in real time with zero safety incident rate improvement over baseline",
+  "investor_narrative": "Construction safety incidents cost $170B annually in the US alone — real-time AI detection changes the actuarial math for project insurance"
+}
