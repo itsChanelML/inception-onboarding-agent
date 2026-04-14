@@ -421,15 +421,18 @@ class MonitorAgent:
 
     def _save_report(self, report: dict) -> str:
         """Save the morning scan report to disk."""
-        OUTPUTS_DIR.mkdir(exist_ok=True)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        path = OUTPUTS_DIR / f"morning_scan_{timestamp}.json"
-
-        # Remove non-serializable items before saving
-        serializable = json.loads(json.dumps(report, default=str))
-        path.write_text(json.dumps(serializable, indent=2))
-
-        return str(path)
+        import os
+        if os.environ.get("VERCEL") == "1":
+            return "vercel-readonly"
+        try:
+            OUTPUTS_DIR.mkdir(exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            path = OUTPUTS_DIR / f"morning_scan_{timestamp}.json"
+            serializable = json.loads(json.dumps(report, default=str))
+            path.write_text(json.dumps(serializable, indent=2))
+            return str(path)
+        except OSError:
+            return "filesystem-readonly"
 
     def load_latest_report(self) -> Optional[dict]:
         """Load the most recent morning scan report from disk."""

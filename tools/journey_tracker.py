@@ -51,6 +51,10 @@ from typing import Optional
 
 JOURNEY_DIR = Path("outputs/journeys")
 
+# Vercel has a read-only filesystem — skip all disk writes
+import os as _os
+IS_VERCEL = _os.environ.get("VERCEL") == "1"
+
 # Health signal thresholds
 HEALTH_ON_TRACK = "on_track"
 HEALTH_WATCH    = "watch"
@@ -90,7 +94,8 @@ class JourneyTracker:
 
     def __init__(self, slug: str):
         self.slug = slug
-        JOURNEY_DIR.mkdir(parents=True, exist_ok=True)
+        if not IS_VERCEL:
+            JOURNEY_DIR.mkdir(parents=True, exist_ok=True)
 
         # Load existing journey or initialize fresh
         self._data = self._load()
@@ -438,8 +443,14 @@ class JourneyTracker:
     # ── Persistence ───────────────────────────────────────────────────────────
 
     def _save(self) -> None:
+        if IS_VERCEL:
+            return   # Vercel filesystem is read-only
         path = self._path()
-        path.write_text(json.dumps(self._data, indent=2))
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(self._data, indent=2))
+        except OSError:
+            pass   # Silently skip if filesystem not writable
 
     def _load(self) -> dict:
         path = self._path()
