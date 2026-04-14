@@ -1911,6 +1911,7 @@ function populateBrief(){
   });
 
   const sectionDelay=2000;
+  const baseDelay=800;
 
   bodies.forEach((body,i)=>{
     setTimeout(()=>{
@@ -1922,7 +1923,7 @@ function populateBrief(){
       if(i===bodies.length-1){
         setTimeout(()=>completeBrief(),800);
       }
-    }, delay + (i * sectionDelay));
+    }, baseDelay + (i * sectionDelay));
   });
 }
 
