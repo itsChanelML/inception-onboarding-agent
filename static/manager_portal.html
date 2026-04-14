@@ -2068,6 +2068,232 @@ function goTo(tab){
 }
 </script>
 
+
+<script>
+// ── LIVE API WIRING ──────────────────────────────────────────────────────────
+
+const API = '';  // empty = same origin
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+async function apiFetch(path) {
+  try {
+    const r = await fetch(API + path);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e) {
+    console.warn('API fetch failed:', path, e);
+    return null;
+  }
+}
+
+function timeAgo(isoStr) {
+  if (!isoStr) return '';
+  const diff = Date.now() - new Date(isoStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  return Math.floor(hrs / 24) + 'd ago';
+}
+
+// ── Dashboard — morning scan ──────────────────────────────────────────────────
+
+async function loadDashboard() {
+  const data = await apiFetch('/api/morning-scan');
+  if (!data) return;
+
+  const stats = data.portfolio_stats || {};
+
+  // Update stat strip
+  const statVals = document.querySelectorAll('.stat-v');
+  if (statVals[0]) statVals[0].textContent = stats.total_founders || 6;
+  if (statVals[1]) { statVals[1].textContent = (stats.watch || 0) + (stats.at_risk || 0); }
+  if (statVals[2]) statVals[2].textContent = stats.urgent_tickets || 0;
+
+  // Update hero subtitle with Aria summary
+  if (data.summary) {
+    const sub = document.querySelector('.dh-sub');
+    if (sub) sub.textContent = data.summary;
+  }
+
+  // Update dashboard date
+  const ph = document.querySelector('#screen-dash .ph-sub');
+  if (ph && data.generated_at) {
+    const d = new Date(data.generated_at);
+    ph.textContent = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})
+      + ' · ' + (stats.total_founders || 6) + ' active founders · '
+      + (stats.urgent_tickets || 0) + ' urgent tickets';
+  }
+}
+
+// ── Portfolio — live founder cards ────────────────────────────────────────────
+
+async function loadPortfolio() {
+  const founders = await apiFetch('/api/founders');
+  if (!founders || !founders.length) return;
+
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+
+  // Update badge count
+  const badge = document.querySelector('#ni-portfolio .nav-badge');
+  if (badge) badge.textContent = founders.length;
+
+  // Update topbar badge
+  const tbBadge = document.querySelector('.badge-blu');
+  if (tbBadge) tbBadge.textContent = founders.length + ' Active Founders';
+}
+
+// ── Tickets — live inbox ──────────────────────────────────────────────────────
+
+async function loadTickets() {
+  const data = await apiFetch('/api/tickets');
+  if (!data || !data.tickets || !data.tickets.length) return;
+
+  const tickets = data.tickets;
+  const openCount = tickets.filter(t => t.status === 'open' || t.status === 'aria_draft').length;
+
+  // Update badge
+  const badge = document.querySelector('#ni-inbox .nav-badge');
+  if (badge) badge.textContent = openCount;
+
+  // Update topbar pending badge
+  const ambBadge = document.querySelector('.badge-amb');
+  if (ambBadge && openCount > 0) ambBadge.textContent = openCount + ' Pending Tickets';
+
+  // Inject tickets into inbox list (after the filter bar)
+  const inboxList = document.querySelector('.inbox-list');
+  if (!inboxList) return;
+
+  // Remove existing ticket rows
+  inboxList.querySelectorAll('.ticket-row').forEach(r => r.remove());
+
+  const filterBar = inboxList.querySelector('.inbox-filters');
+
+  tickets.slice(0, 8).forEach((ticket, i) => {
+    const isUnread = ticket.status === 'open';
+    const urgencyPill = ticket.urgency === 'urgent'
+      ? '<span class="pill pc" style="font-size:9px">Urgent</span>'
+      : ticket.urgency === 'moderate'
+      ? '<span class="pill pa" style="font-size:9px">Moderate</span>'
+      : '<span class="pill pb" style="font-size:9px">General</span>';
+
+    const initials = (ticket.founder_slug || 'XX').slice(0,2).toUpperCase();
+    const row = document.createElement('div');
+    row.className = 'ticket-row' + (i === 0 ? ' selected' : '') + (isUnread ? ' unread' : '');
+    row.dataset.tags = [ticket.urgency, ticket.category].filter(Boolean).join(',');
+    row.innerHTML = `
+      <div class="tr-av" style="background:linear-gradient(135deg,#001228,#003060);border-color:var(--blu-b);color:var(--blu)">${initials}</div>
+      <div class="tr-body">
+        <div class="tr-top">
+          <div class="tr-name">${ticket.founder_name || ticket.founder_slug}</div>
+          <div class="tr-time">${timeAgo(ticket.submitted_at)}</div>
+        </div>
+        <div class="tr-title">${ticket.question ? ticket.question.slice(0,60) + '...' : 'Support request'}</div>
+        <div class="tr-preview">${ticket.aria_draft ? ticket.aria_draft.slice(0,120) + '...' : ''}</div>
+        <div style="margin-top:6px">${urgencyPill}</div>
+      </div>
+      ${isUnread ? '<div class="unread-dot"></div>' : ''}
+    `;
+    row.onclick = () => {
+      document.querySelectorAll('.ticket-row').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      row.querySelector('.unread-dot')?.remove();
+      loadTicketDetail(ticket);
+    };
+    filterBar ? filterBar.after(row) : inboxList.appendChild(row);
+  });
+}
+
+function loadTicketDetail(ticket) {
+  const detail = document.getElementById('ticket-detail');
+  if (!detail) return;
+
+  const initials = (ticket.founder_slug || 'XX').slice(0,2).toUpperCase();
+  const urgencyColor = ticket.urgency === 'urgent' ? 'var(--cor)' : ticket.urgency === 'moderate' ? 'var(--amb)' : 'var(--blu)';
+
+  detail.innerHTML = `
+    <div class="td-hdr">
+      <div class="td-founder">
+        <div class="td-av" style="background:linear-gradient(135deg,#001228,#003060);border-color:var(--blu-b);color:var(--blu)">${initials}</div>
+        <div>
+          <div class="td-fname">${ticket.founder_name || ticket.founder_slug}</div>
+          <div class="td-fco">${ticket.founder_slug}</div>
+        </div>
+        <span class="pill" style="margin-left:auto;background:rgba(192,57,43,.1);color:${urgencyColor};border:1px solid ${urgencyColor}40">${ticket.urgency || 'general'}</span>
+      </div>
+      <div class="td-category" style="color:var(--blu)">${ticket.category || 'General'}</div>
+      <div class="td-subject">${ticket.question ? ticket.question.slice(0,80) : 'Support request'}</div>
+      <div class="td-meta">
+        <span class="pill pb" style="font-size:10px">${timeAgo(ticket.submitted_at)}</span>
+      </div>
+    </div>
+    <div class="td-body">
+      <div class="td-msg">
+        <div class="td-msg-label">From ${ticket.founder_name || ticket.founder_slug}</div>
+        <div class="td-msg-text">${ticket.question || ''}</div>
+      </div>
+      ${ticket.aria_draft ? `
+      <div class="td-aria-tip">
+        <div class="td-aria-label"><span>⬡</span>Aria's Suggested Response</div>
+        <div class="td-aria-text">${ticket.aria_draft}</div>
+      </div>` : ''}
+    </div>
+    <div class="td-reply-area">
+      <textarea class="reply-ta" id="live-reply-ta" placeholder="Write your reply...">${ticket.aria_draft || ''}</textarea>
+      <div class="reply-actions">
+        <button class="btn btn-ghost" onclick="this.textContent='✓ Saved'">Save Draft</button>
+        <button class="btn btn-nv" onclick="sendReply(this)">Send Reply →</button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Aria chat — wire to live API ──────────────────────────────────────────────
+
+async function sendAriaMessage(message, founderSlug) {
+  try {
+    const r = await fetch('/api/aria/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message, founder_slug: founderSlug || 'claravision'})
+    });
+    const data = await r.json();
+    return data.response || null;
+  } catch(e) {
+    return null;
+  }
+}
+
+// Override sendMsg to use live Aria
+const _origSendMsg = typeof sendMsg === 'function' ? sendMsg : null;
+async function sendMsg() {
+  const inp = document.getElementById('aria-input');
+  const text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  addUser(text);
+  if (inp) inp.value = '';
+  showTyping();
+  const response = await sendAriaMessage(text, 'claravision');
+  removeTyping();
+  if (response) {
+    addAria(response);
+  } else if (_origSendMsg) {
+    // fallback to hardcoded replies
+    addAria("Based on your portfolio signals, here's how I'd approach this...");
+  }
+}
+
+// ── Init — load data when page is ready ──────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboard();
+  loadPortfolio();
+  loadTickets();
+});
+</script>
 </body>
 </html>
 <script>
