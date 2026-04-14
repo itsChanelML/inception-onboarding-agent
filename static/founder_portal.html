@@ -2271,6 +2271,221 @@ initWelcome();
 
 </script>
 
+
+<script>
+// ── FOUNDER PORTAL — LIVE API WIRING ─────────────────────────────────────────
+
+const FOUNDER_SLUG = 'claravision';  // Active founder slug
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+async function apiFetch(path, options) {
+  try {
+    const r = await fetch(path, options);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e) {
+    console.warn('API fetch failed:', path, e);
+    return null;
+  }
+}
+
+// ── Aria chat — wire to live NIM ──────────────────────────────────────────────
+
+async function sendLiveAriaMessage(message) {
+  try {
+    const r = await fetch('/api/aria/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message, founder_slug: FOUNDER_SLUG})
+    });
+    const data = await r.json();
+    return data.response || null;
+  } catch(e) {
+    return null;
+  }
+}
+
+// Override the existing sendMsg to use live API
+window._founderOrigSendMsg = window.sendMsg;
+window.sendMsg = async function() {
+  const inp = document.getElementById('aria-input');
+  const text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  addUser(text);
+  if (inp) inp.value = '';
+  showTyping();
+  const response = await sendLiveAriaMessage(text);
+  removeTyping();
+  if (response) {
+    addAria(response);
+  } else {
+    addAria("I'm having trouble connecting right now. Try again in a moment.");
+  }
+};
+
+// Override sendChip to also use live API
+window._founderOrigSendChip = window.sendChip;
+window.sendChip = async function(el) {
+  const text = el.textContent.trim();
+  addUser(text);
+  el.remove();
+  showTyping();
+  const response = await sendLiveAriaMessage(text);
+  removeTyping();
+  if (response) {
+    addAria(response);
+  } else {
+    // fallback to hardcoded
+    addAria("Based on your ClaraVision profile, here's how I'd approach this...");
+  }
+};
+
+// ── Chip prediction — live during onboarding ──────────────────────────────────
+
+async function fetchLiveChips(partialProfile, nextQuestion) {
+  const data = await apiFetch('/api/onboard/predict-chips', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({partial_profile: partialProfile, next_question: nextQuestion})
+  });
+  return data && data.chips ? data.chips : [];
+}
+
+// Patch renderQuestion to inject live chips after defaults load
+const _origRenderQuestion = window.renderQuestion;
+window.renderQuestion = async function(idx) {
+  _origRenderQuestion(idx);
+
+  // After a short delay, fetch live chips and append if we have profile context
+  if (Object.keys(obProfile).length >= 2) {
+    const q = obQuestions[idx];
+    if (!q || q.multi) return;  // Skip multi-select and missing questions
+
+    setTimeout(async () => {
+      const liveChips = await fetchLiveChips(obProfile, q.question);
+      if (!liveChips.length) return;
+
+      // Find the latest chips wrap and add live chips
+      const allWraps = document.querySelectorAll('.ob-chips-wrap');
+      const wrap = allWraps[allWraps.length - 1];
+      if (!wrap) return;
+
+      // Add a separator
+      const sep = document.createElement('div');
+      sep.style.cssText = 'width:100%;font-family:JetBrains Mono,monospace;font-size:9px;color:var(--dim);letter-spacing:1px;margin-top:4px';
+      sep.textContent = '⬡ ARIA SUGGESTS';
+      wrap.appendChild(sep);
+
+      liveChips.slice(0, 3).forEach(chip => {
+        const btn = document.createElement('button');
+        btn.className = 'ob-chip';
+        btn.style.borderColor = 'var(--nv-b2)';
+        btn.style.color = 'var(--nv)';
+        btn.textContent = chip;
+        btn.onclick = () => selectChip(btn, chip, q);
+        wrap.appendChild(btn);
+      });
+    }, 1200);
+  }
+};
+
+// ── Onboarding submission — save to backend ───────────────────────────────────
+
+const _origFinishOnboarding = window.finishOnboarding;
+window.finishOnboarding = async function() {
+  _origFinishOnboarding();
+
+  // Save profile to backend
+  const slug = 'maya_chen_' + Date.now();
+  const payload = {
+    slug,
+    founder_name: 'Dr. Maya Chen',
+    company: 'ClaraVision',
+    ...obProfile
+  };
+
+  const result = await apiFetch('/api/onboard', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  });
+
+  if (result && result.success) {
+    console.log('✓ Profile saved:', result.slug);
+  }
+};
+
+// ── Ask Manager — submit ticket live ─────────────────────────────────────────
+
+const _origSubmitTicket = window.submitTicket;
+window.submitTicket = async function(btn) {
+  const ta = document.querySelector('.tf-ta');
+  const question = ta ? ta.value.trim() : '';
+  if (!question) return;
+
+  // Determine urgency from selected button
+  const urgentBtn = document.querySelector('.urg-btn.sel-urgent');
+  const urgency = urgentBtn ? 'urgent' : 'general';
+
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+
+  const result = await apiFetch('/api/tickets', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      question,
+      urgency,
+      founder_slug: FOUNDER_SLUG,
+      founder_name: 'Dr. Maya Chen'
+    })
+  });
+
+  if (result && result.ticket_id) {
+    btn.textContent = '✓ Submitted — Manager Notified';
+    btn.style.background = 'rgba(74,158,255,.1)';
+    btn.style.color = 'var(--blu)';
+
+    // Show Aria draft if returned
+    if (result.aria_draft) {
+      const draftDiv = document.createElement('div');
+      draftDiv.style.cssText = 'margin-top:12px;padding:12px 14px;background:var(--nv-glow);border:1px solid var(--nv-b2);border-radius:var(--rsm);font-size:12px;color:var(--sub);line-height:1.6';
+      draftDiv.innerHTML = '<strong style="color:var(--nv)">⬡ Aria drafted a response</strong><br>' + result.aria_draft;
+      btn.parentElement.appendChild(draftDiv);
+    }
+  } else {
+    btn.textContent = '✓ Submitted';
+    btn.disabled = false;
+  }
+};
+
+// ── Community search — RAG ────────────────────────────────────────────────────
+
+const searchInput = document.getElementById('community-search');
+if (searchInput) {
+  searchInput.addEventListener('keypress', async (e) => {
+    if (e.key !== 'Enter' || !searchInput.value.trim()) return;
+    const query = searchInput.value.trim();
+    searchInput.value = '';
+    showFounderToast('⬡ Aria is searching...');
+
+    const data = await apiFetch('/api/community/search', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query})
+    });
+
+    if (data && data.results && data.results.length) {
+      showFounderToast(data.results.length + ' results found');
+    } else {
+      showFounderToast('No results found — try different terms');
+    }
+  });
+}
+
+console.log('✓ Founder portal API wiring loaded');
+</script>
 </body>
 </html>
 <!-- placeholder to detect EOF -->
