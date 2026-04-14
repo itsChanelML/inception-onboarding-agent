@@ -1889,36 +1889,39 @@ function populateBrief(){
   const statusBar=document.getElementById('brief-status');
   if(statusBar){ statusBar.style.display='flex'; statusBar.style.color='var(--nv)'; }
 
-  // Remove any old checkmarks first
+  // Remove old checkmarks
   document.querySelectorAll('#screen-brief .brief-section-check').forEach(c=>c.remove());
 
-  // Collect bodies and hide them
-  const bodies=document.querySelectorAll('#screen-brief .brief-body');
-  bodies.forEach(b=>{ b.style.opacity='0'; b.style.transition='none'; });
+  // Get all brief sections in screen-brief
+  const sections=document.querySelectorAll('#screen-brief .brief-section');
 
-  // Add fresh checkmarks to all headers
+  // Hide all section bodies using visibility on the whole section
+  sections.forEach(s=>{ s.style.opacity='0'; s.style.transition='none'; });
+
+  // Add checkmarks
   document.querySelectorAll('#screen-brief .brief-hdr-label').forEach(h=>{
-    const chk=document.createElement('span');
-    chk.className='brief-section-check';
-    chk.textContent='✓';
-    chk.style.marginLeft='auto';
-    h.parentElement.appendChild(chk);
+    if(!h.parentElement.querySelector('.brief-section-check')){
+      const chk=document.createElement('span');
+      chk.className='brief-section-check';
+      chk.textContent='✓';
+      chk.style.marginLeft='auto';
+      h.parentElement.appendChild(chk);
+    }
   });
 
-  const sectionDelay=2000;
-  const baseDelay=800;
+  const sectionDelay=1800;
+  const baseDelay=600;
 
-  bodies.forEach((body,i)=>{
+  sections.forEach((section,i)=>{
     setTimeout(()=>{
-      body.style.transition='opacity 0.5s ease';
-      body.style.opacity='1';
+      section.style.transition='opacity 0.6s ease';
+      section.style.opacity='1';
       const allChecks=document.querySelectorAll('#screen-brief .brief-section-check');
       if(allChecks[i]) allChecks[i].classList.add('done');
-
-      if(i===bodies.length-1){
+      if(i===sections.length-1){
         setTimeout(()=>completeBrief(),800);
       }
-    }, baseDelay + (i * sectionDelay));
+    }, baseDelay+(i*sectionDelay));
   });
 }
 
