@@ -42,7 +42,7 @@ import os
 import json
 import time
 import re
-from typing import Generator, Optional
+from typing import Generator, Optional, Union
 from openai import OpenAI, APIError, APITimeoutError, RateLimitError
 
 # ── Model constants ───────────────────────────────────────────────────────────
@@ -141,7 +141,7 @@ class NIMClient:
         system: Optional[str] = None,
         model: str = DEFAULT_MODEL,
         max_tokens: int = 1024,
-    ) -> dict | list:
+    ) -> "Union[dict, list]":
         """
         Completion that expects and returns parsed JSON.
         Strips markdown fences if the model wraps output in them.
