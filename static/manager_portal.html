@@ -2050,6 +2050,26 @@ function goTo(tab){
   if(tab==='maya'){
     setTimeout(()=>showProfileChange(),300);
   }
+  if(tab==='brief'){
+    setTimeout(()=>{
+      document.querySelectorAll('#screen-brief .brief-body').forEach(b=>{
+        b.style.opacity='0';
+        b.style.transition='none';
+      });
+      document.querySelectorAll('.brief-section-check').forEach(c=>{
+        c.classList.remove('done');
+      });
+      const banner=document.getElementById('brief-banner');
+      const ackBtn=document.getElementById('brief-ack-btn');
+      const statusText=document.getElementById('brief-status-text');
+      const statusBar=document.getElementById('brief-status');
+      if(banner) banner.style.display='none';
+      if(ackBtn) ackBtn.style.display='none';
+      if(statusText) statusText.textContent='Aria is preparing your brief...';
+      if(statusBar){ statusBar.style.display='flex'; statusBar.style.color='var(--nv)'; }
+      setTimeout(()=>populateBrief(), 600);
+    }, 200);
+  }
 }
 </script>
 
