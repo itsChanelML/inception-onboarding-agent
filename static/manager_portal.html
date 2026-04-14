@@ -1891,21 +1891,17 @@ function startBriefFlow(){
 }
 
 function populateBrief(){
-  // Show status bar
   const statusBar=document.getElementById('brief-status');
-  if(statusBar) statusBar.style.display='flex';
+  if(statusBar){ statusBar.style.display='flex'; statusBar.style.color='var(--nv)'; }
 
-  // Collect all brief-body elements
+  // Remove any old checkmarks first
+  document.querySelectorAll('#screen-brief .brief-section-check').forEach(c=>c.remove());
+
+  // Collect bodies and hide them
   const bodies=document.querySelectorAll('#screen-brief .brief-body');
-  const checks=document.querySelectorAll('#screen-brief .brief-hdr');
+  bodies.forEach(b=>{ b.style.opacity='0'; b.style.transition='none'; });
 
-  // Add shimmer to all bodies initially
-  bodies.forEach(b=>{
-    b.style.opacity='0';
-    b.style.transition='opacity 0.3s';
-  });
-
-  // Add checkmarks to all headers
+  // Add fresh checkmarks to all headers
   document.querySelectorAll('#screen-brief .brief-hdr-label').forEach(h=>{
     const chk=document.createElement('span');
     chk.className='brief-section-check';
@@ -1914,17 +1910,15 @@ function populateBrief(){
     h.parentElement.appendChild(chk);
   });
 
-  let delay=300;
-  const sectionDelay=2200;
+  const sectionDelay=2000;
 
   bodies.forEach((body,i)=>{
     setTimeout(()=>{
+      body.style.transition='opacity 0.5s ease';
       body.style.opacity='1';
-      // Show checkmark for this section's header
-      const checks=document.querySelectorAll('.brief-section-check');
-      if(checks[i]) checks[i].classList.add('done');
+      const allChecks=document.querySelectorAll('#screen-brief .brief-section-check');
+      if(allChecks[i]) allChecks[i].classList.add('done');
 
-      // Show complete state after last section
       if(i===bodies.length-1){
         setTimeout(()=>completeBrief(),800);
       }
