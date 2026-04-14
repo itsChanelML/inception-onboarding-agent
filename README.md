@@ -2,6 +2,8 @@
 
 An AI-powered onboarding and relationship management platform for NVIDIA Inception Program founders. Built with Nemotron via NVIDIA NIM. Deployed on Vercel with a Flask backend.
 
+**Live:** [inception-onboarding-agent.vercel.app](https://inception-onboarding-agent.vercel.app)
+
 ---
 
 ## What It Does
@@ -16,7 +18,8 @@ Inception Intelligence gives every NVIDIA Inception founder a personalized AI ad
 **For managers**, it generates:
 - New Founder Brief — Aria's full analysis including risk signals, open questions, and recommended first actions
 - Kickoff Meeting Playbook — a 60-minute agenda with what to say, what to listen for, and what to do after
-- Profile Change Alerts — detects when a founder updates their profile and flags which documents need regeneration
+- Morning Portfolio Scan — daily AI briefing across all founders with prioritized action list
+- Pattern Match Intelligence — surfaces analogous successful founder journeys with lessons
 
 The manager arrives prepared. The founder feels seen. The relationship starts three conversations deep instead of zero.
 
@@ -26,12 +29,14 @@ The manager arrives prepared. The founder feels seen. The relationship starts th
 
 | Layer | Tool |
 |-------|------|
-| Intelligence | Nemotron via NVIDIA NIM |
-| Agent Runtime | Python |
-| Backend | Flask |
+| Intelligence | Nemotron via NVIDIA NIM (`nvidia/nemotron-super-49b-v1`) |
+| Fast inference | `nvidia/nemotron-nano-8b-v1` (chip prediction, triage) |
+| Agent Runtime | Python 5,770+ lines across 6 agents, 5 tools, 4 schemas |
+| Backend | Flask — 24 API routes |
 | Deployment | Vercel (serverless) |
-| UI | Inception Intelligence Portal (two-portal HTML/CSS/JS) |
-| Model | `nvidia/nemotron-super-49b-v1` |
+| UI | Two-portal HTML/CSS/JS — Manager + Founder |
+| Data validation | Pydantic v2 |
+| Tests | pytest — 99 passing |
 
 ---
 
@@ -40,63 +45,127 @@ The manager arrives prepared. The founder feels seen. The relationship starts th
 ```
 inception-onboarding-agent/
 ├── api/
-│   └── index.py              # Vercel serverless entry point
-├── app.py                    # Flask backend — 15 API routes
-├── agent.py                  # Batch generation script (local)
-├── vercel.json               # Vercel deployment config
+│   └── index.py                  # Vercel serverless entry point
+├── app.py                        # Flask backend — 24 API routes (877 lines)
+├── agent.py                      # Batch generation script (local)
+├── vercel.json                   # Vercel deployment config
 ├── requirements.txt
-├── .env.example
 │
 ├── agents/
-│   ├── orchestrator.py       # Coordinates all agents
-│   ├── risk_agent.py         # Risk signal detection
-│   └── ticket_agent.py       # Ticket triage + response drafting
+│   ├── orchestrator.py           # Coordinates all agents for a founder
+│   ├── risk_agent.py             # Risk signal detection (CTO gap, benefit lag, etc.)
+│   ├── ticket_agent.py           # Ticket triage + Aria response drafting
+│   ├── onboarding_agent.py       # 13-question intake + NIM chip prediction
+│   ├── pattern_matcher.py        # Analogous founder journey matching
+│   └── monitor_agent.py          # Morning portfolio health scan
+│
+├── tools/
+│   ├── nim_client.py             # Reusable NIM wrapper (retry, streaming, JSON)
+│   ├── founder_db.py             # Read/write/version founder profiles
+│   ├── memory.py                 # Per-founder Aria conversation memory
+│   ├── vector_store.py           # ChromaDB RAG for community search
+│   └── journey_tracker.py        # Milestone velocity, health signals, cohort comparison
+│
+├── schemas/
+│   ├── founder_profile.py        # Pydantic founder schema with validators
+│   ├── milestone.py              # Milestone structure + 7 default templates
+│   ├── ticket.py                 # Ticket schema + routing rules table
+│   └── journey.py                # Success pattern schema + 3 seed patterns
 │
 ├── prompts/
-│   ├── vision_brief.txt      # Vision Translation Brief prompt
-│   ├── roadmap.txt           # 12-Month Milestone Roadmap prompt
-│   ├── risk_analysis.txt     # Risk signal analysis — returns structured JSON
-│   └── aria_chat.txt         # Aria conversation system prompt
+│   ├── vision_brief.txt          # Vision Translation Brief prompt
+│   ├── roadmap.txt               # 12-Month Milestone Roadmap prompt
+│   ├── risk_analysis.txt         # Risk signal analysis prompt
+│   └── aria_chat.txt             # Aria conversation system prompt
 │
 ├── founders/
-│   ├── claravision.json      # Dr. Maya Chen — medical imaging AI
-│   ├── novacrop.json         # Ravi Krishnamurthy — precision agriculture
-│   ├── quantum_dx.json       # Sofia Torres — genomic sequencing AI
-│   ├── voicepath_ai.json     # James Mbeki — clinical NLP
-│   ├── retinal_ai.json       # Amara Patel — ophthalmology screening
-│   └── structure_iq.json     # Lena Nakamura — construction AI
+│   ├── claravision.json          # Dr. Maya Chen — medical imaging AI
+│   ├── novacrop.json             # Ravi Krishnamurthy — precision agriculture
+│   ├── quantum_dx.json           # Sofia Torres — genomic sequencing AI
+│   ├── voicepath_ai.json         # James Mbeki — clinical NLP
+│   ├── retinal_ai.json           # Amara Patel — ophthalmology screening
+│   └── structure_iq.json         # Lena Nakamura — construction AI
 │
 ├── static/
-│   ├── manager_portal.html   # Manager portal — brief, agenda, inbox, Aria
-│   └── founder_portal.html   # Founder portal — onboarding, roadmap, community
+│   ├── manager_portal.html       # Manager portal — brief, agenda, inbox, Aria
+│   └── founder_portal.html       # Founder portal — onboarding, roadmap, community
 │
-└── outputs/                  # Generated briefs and roadmaps
+├── tests/
+│   ├── conftest.py               # Shared fixtures
+│   ├── test_schemas.py           # 44 schema validation tests
+│   ├── test_pattern_matcher.py   # 31 scoring + matching tests
+│   ├── test_onboarding_agent.py  # 24 question + chip prediction tests
+│   └── test_routes.py            # Flask route smoke tests
+│
+└── outputs/                      # Generated briefs and roadmaps (local only)
 ```
 
 ---
 
 ## API Routes
 
-| Method | Route | What it does |
-|--------|-------|--------------|
-| GET | `/` | Manager portal |
-| GET | `/founder` | Founder portal |
-| GET | `/api/founders` | List all founder profiles |
-| GET | `/api/founders/<slug>` | Get a single founder profile |
-| PUT | `/api/founders/<slug>` | Update a founder profile field |
-| GET | `/api/founders/<slug>/assignment` | Intro overlay data for new assignment |
-| GET/POST | `/api/founders/<slug>/brief-status` | Get or set brief read status |
-| GET | `/api/founders/<slug>/agenda` | Kickoff agenda metadata |
-| POST | `/api/founders/<slug>/profile-change` | Log a profile change, return impact |
-| GET/POST | `/api/founders/<slug>/milestones` | Get or update milestone state |
-| GET | `/api/generate/<slug>/<doc_type>` | Stream Nemotron generation (local) |
-| GET | `/api/generate-sync/<slug>/<doc_type>` | Non-streaming generation (Vercel) |
-| POST | `/api/aria/chat` | Aria chat with founder context |
-| POST | `/api/onboard` | Save completed onboarding profile |
-| POST | `/api/onboard/predict-chips` | AI-predicted suggestion chips |
-| GET/POST | `/api/community/threads` | Community thread feed |
-| GET/POST | `/api/tickets` | Submit and list support tickets |
-| GET | `/api/outputs/<slug>` | Get previously generated documents |
+| Method | Route | Agent | What it does |
+|--------|-------|-------|--------------|
+| GET | `/` | — | Manager portal |
+| GET | `/founder` | — | Founder portal |
+| GET | `/api/health` | — | Health check — agents loaded, founder count, NIM status |
+| GET | `/api/founders` | FounderDB | List all founder profiles |
+| GET | `/api/founders/<slug>` | FounderDB | Get a single founder profile |
+| PUT | `/api/founders/<slug>` | FounderDB | Update a founder profile field |
+| GET | `/api/founders/<slug>/assignment` | JourneyTracker | Intro overlay data |
+| GET/POST | `/api/founders/<slug>/brief-status` | — | Get or set brief read status |
+| GET | `/api/founders/<slug>/agenda` | — | Kickoff agenda metadata |
+| POST | `/api/founders/<slug>/profile-change` | FounderDB | Log a profile change, return impact |
+| GET/POST | `/api/founders/<slug>/milestones` | JourneyTracker | Get or update milestone state |
+| GET | `/api/founders/<slug>/risks` | RiskAgent | Risk signals for a founder |
+| GET | `/api/patterns/<slug>` | PatternMatcher | Analogous founder matches + manager recommendation |
+| GET | `/api/morning-scan` | MonitorAgent | Full portfolio health scan with NIM briefing |
+| POST | `/api/orchestrate/<slug>` | Orchestrator | Run all agents for a founder |
+| GET | `/api/generate/<slug>/<doc_type>` | NIMClient | Stream Nemotron generation (local only) |
+| GET | `/api/generate-sync/<slug>/<doc_type>` | NIMClient | Non-streaming generation (Vercel) |
+| POST | `/api/aria/chat` | Memory + NIMClient | Aria chat with founder context + memory |
+| POST | `/api/onboard` | OnboardingAgent | Save completed onboarding profile |
+| POST | `/api/onboard/predict-chips` | OnboardingAgent | AI-predicted suggestion chips (NANO model) |
+| GET/POST | `/api/community/threads` | — | Community thread feed |
+| POST | `/api/community/search` | VectorStore | RAG search across community + docs |
+| GET/POST | `/api/tickets` | TicketAgent | Submit and list support tickets |
+| GET | `/api/outputs/<slug>` | FounderDB | Get previously generated documents |
+
+---
+
+## Agent Architecture
+
+### MonitorAgent — Morning Portfolio Scan
+Runs daily across all 6 founders. Checks Aria session activity, benefit activation, open tickets, milestone velocity, and runs PatternMatcher on at-risk founders. Uses NIM NANO to generate a plain-English briefing for the manager.
+
+### PatternMatcher — Analogous Journey Matching
+Scores each founder against 3 seed success patterns across 6 dimensions: domain, deployment target, compliance, NVIDIA tools, primary challenge, funding stage. Returns top N matches with similarity score, key insight, and recommended manager action.
+
+### OnboardingAgent — Conversational Intake
+Owns all 13 onboarding questions across 5 chapters (Vision, Technical, Team, Market, Ask). Uses NIM NANO for real-time chip prediction during onboarding. Synthesizes `primary_challenge` and `investor_narrative` from completed answers.
+
+### RiskAgent — Signal Detection
+Detects CTO alignment gaps, benefit activation lag, Aria silence, milestone stalls, and compliance gaps from founder profile data. Returns structured signals with severity and manager action.
+
+### TicketAgent — Triage + Response Drafting
+Classifies tickets by category and urgency. Routes to manager, Aria, or Aria-then-manager based on a routing rules table. Drafts responses using NIM with full founder context.
+
+### Orchestrator — Full Agent Run
+Coordinates brief generation, roadmap generation, and risk analysis for a single founder. Used for initial onboarding and profile change regeneration.
+
+---
+
+## Ticket Routing Logic
+
+| Category | Urgency | Routing |
+|----------|---------|---------|
+| Technical | Urgent | Manager |
+| Compliance | Urgent | Manager |
+| Partnership | Urgent | Manager |
+| Technical | Moderate | Aria → Manager review |
+| Technical | General | Aria (auto-resolve) |
+| General | General | Aria (auto-resolve) |
+| Billing | Any | Aria → Manager review |
 
 ---
 
@@ -111,14 +180,32 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Manager portal → `http://localhost:5000`  
+Manager portal → `http://localhost:5000`
 Founder portal → `http://localhost:5000/founder`
+Health check → `http://localhost:5000/api/health`
 
 To generate documents from the command line:
 
 ```bash
 python agent.py claravision
 python agent.py novacrop
+```
+
+---
+
+## Running Tests
+
+```bash
+python3 -m pytest tests/ -v
+```
+
+99 tests across schemas, pattern matching, onboarding agent, and route smoke tests. All pass. NIM calls are mocked — no API key required to run tests.
+
+```
+tests/test_schemas.py          44 passed
+tests/test_pattern_matcher.py  31 passed
+tests/test_onboarding_agent.py 24 passed
+tests/test_routes.py           (route smoke tests)
 ```
 
 ---
@@ -130,20 +217,39 @@ python agent.py novacrop
 3. Add `NVIDIA_API_KEY` as an environment variable in Vercel project settings
 4. Deploy — all routes are handled by `api/index.py`
 
-The portal uses `/api/generate-sync` on Vercel instead of the SSE streaming route, since serverless functions do not support long-running connections. The word-by-word brief population animation is CSS — it does not require a live stream.
+The platform uses `/api/generate-sync` on Vercel instead of the SSE streaming route, since serverless functions do not support long-running connections. The Vercel filesystem is read-only — all disk writes are skipped automatically via `IS_VERCEL` environment detection.
+
+---
+
+## Live API Verification
+
+```bash
+# Health check
+curl https://inception-onboarding-agent.vercel.app/api/health
+
+# Morning portfolio scan
+curl https://inception-onboarding-agent.vercel.app/api/morning-scan
+
+# Pattern matching for ClaraVision
+curl https://inception-onboarding-agent.vercel.app/api/patterns/claravision
+
+# Risk signals for ClaraVision
+curl https://inception-onboarding-agent.vercel.app/api/founders/claravision/risks
+```
 
 ---
 
 ## The Demo Path
 
-The portal tells a single, continuous story across both portals:
+The platform tells a single continuous story across both portals:
 
 1. **Founder arrives** → animated welcome overlay → "Welcome to the program, Maya"
 2. **Smart onboarding** → Aria asks 13 questions with AI-predicted suggestion chips → right panel builds live profile in real time → documents unlock progressively → completion screen
-3. **Founder portal** → dashboard, roadmap, Vision Translation Brief, Aria chat, community, support tickets
+3. **Founder portal** → dashboard, roadmap, Vision Translation Brief, Aria chat (live NIM), community, support tickets (wired to backend)
 4. **Manager portal** → "New Founder" badge → intro overlay → brief population animation (section by section, green checkmarks) → acknowledgment → kickoff agenda transition
-5. **Profile change detection** → amber alert bar → regenerate brief modal → brief repopulates with updated content
-6. **Ticket inbox** → Aria triage draft pre-loaded → manager sends reply
+5. **Morning scan** → Aria's daily briefing with portfolio health, priority actions, and pattern match insights
+6. **Profile change detection** → amber alert bar → regenerate brief modal → brief repopulates
+7. **Ticket inbox** → Aria triage draft pre-loaded → manager sends reply
 
 ---
 
@@ -172,5 +278,5 @@ At scale, Aria handles the pattern recognition and document generation. The mana
 
 ## Built By
 
-**Chanel Power** — Senior ML Engineer · Founder & CEO of Mentor Me Collective  
-GitHub: [itsChanelML](https://github.com/itsChanelML)
+**Chanel Power** — Senior ML Engineer · DevRel Manager · Founder & CEO of Mentor Me Collective
+GitHub: [itsChanelML](https://github.com/itsChanelML) · [@itsChanelML](https://twitter.com/itsChanelML)
