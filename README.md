@@ -1,14 +1,31 @@
 # Inception Intelligence
 
-An AI-powered onboarding and relationship management platform for NVIDIA Inception Program founders. Built with Nemotron via NVIDIA NIM. Deployed on Vercel with a Flask backend.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![NIM](https://img.shields.io/badge/NVIDIA-NIM-76b900)
+![Nemotron](https://img.shields.io/badge/Model-Nemotron--Super--49B-76b900)
+![Tests](https://img.shields.io/badge/Tests-99%20passing-brightgreen)
+![Deployed](https://img.shields.io/badge/Deployed-Vercel-black)
 
-**Live:** [inception-onboarding-agent.vercel.app](https://inception-onboarding-agent.vercel.app)
+## 🔗 [Live Demo → inception-onboarding-agent.vercel.app](https://inception-onboarding-agent.vercel.app)
+
+> Start at the Founder portal. Complete onboarding as Dr. Maya Chen.
+> Then switch to the Manager portal to see what Aria prepared before you arrived.
+
+---
+
+## Why This Exists
+
+NVIDIA Inception managers onboard 50+ founders per cohort. Every first meeting starts cold — no context, no history, no baseline on what the founder has built, where they're stuck, or which NVIDIA tools actually apply to their domain.
+
+Inception Intelligence compresses that cold start. By the time the manager sits down for the first conversation, Aria has already generated a complete founder brief, surfaced risk signals, mapped their stack to NVIDIA's portfolio, and drafted a 60-minute kickoff agenda.
+
+The manager arrives prepared. The founder feels seen. The relationship starts three conversations deep instead of zero.
 
 ---
 
 ## What It Does
 
-Inception Intelligence gives every NVIDIA Inception founder a personalized AI advisor (Aria) and every DevRel manager a complete intelligence briefing before their first conversation.
+An AI-powered onboarding and relationship management platform for NVIDIA Inception Program founders. Built with Nemotron via NVIDIA NIM. Deployed on Vercel with a Flask backend.
 
 **For founders**, it generates:
 - Vision Translation Brief — maps their clinical or technical vision to the NVIDIA stack in plain language
@@ -21,8 +38,6 @@ Inception Intelligence gives every NVIDIA Inception founder a personalized AI ad
 - Morning Portfolio Scan — daily AI briefing across all founders with prioritized action list
 - Pattern Match Intelligence — surfaces analogous successful founder journeys with lessons
 
-The manager arrives prepared. The founder feels seen. The relationship starts three conversations deep instead of zero.
-
 ---
 
 ## Stack
@@ -31,12 +46,28 @@ The manager arrives prepared. The founder feels seen. The relationship starts th
 |-------|------|
 | Intelligence | Nemotron via NVIDIA NIM (`nvidia/nemotron-super-49b-v1`) |
 | Fast inference | `nvidia/nemotron-nano-8b-v1` (chip prediction, triage) |
-| Agent Runtime | Python 5,770+ lines across 6 agents, 5 tools, 4 schemas |
+| Agent Runtime | Python — 6,767 lines across 6 agents, 5 tools, 4 schemas |
 | Backend | Flask — 24 API routes |
 | Deployment | Vercel (serverless) |
 | UI | Two-portal HTML/CSS/JS — Manager + Founder |
 | Data validation | Pydantic v2 |
 | Tests | pytest — 99 passing |
+
+---
+
+## Technical Decisions
+
+**Why Nemotron over other models?**
+The Inception program serves founders building in NVIDIA's ecosystem. The advisor they interact with should run on NVIDIA infrastructure. Nemotron via NIM was the only architecturally honest choice.
+
+**Why two models (Super-49B + Nano-8B)?**
+Document generation requires reasoning depth — Super-49B handles briefs, roadmaps, and risk analysis. Suggestion chip prediction during onboarding is latency-sensitive — Nano-8B runs fast enough to feel real-time. Right model for right task.
+
+**Why a custom orchestrator over LangGraph?**
+Each founder's agent run is a deterministic pipeline, not a dynamic graph — the sequence of brief → roadmap → risk is fixed. LangGraph adds graph overhead without adding routing flexibility here. The tradeoff is documented and revisitable if the pipeline becomes conditional.
+
+**Why Flask over FastAPI?**
+Vercel serverless compatibility. FastAPI's async model creates cold-start complexity in serverless environments. Flask's simplicity wins when deployment constraints are real.
 
 ---
 
@@ -255,28 +286,21 @@ The platform tells a single continuous story across both portals:
 
 ## Founder Profiles
 
-Six founders across five domains, each with distinct NVIDIA stack requirements:
+Six founders across five domains, each designed against real operational bottleneck patterns in the NVIDIA Inception program:
 
-| Founder | Company | Domain | Key NVIDIA Tools |
-|---------|---------|--------|-----------------|
-| Dr. Maya Chen | ClaraVision | Medical Imaging AI | NIM On-Prem, Clara, MONAI, FLARE |
-| Ravi Krishnamurthy | NovaCrop AI | Precision Agriculture | Jetson Orin, TAO Toolkit, NIM |
-| Sofia Torres | Quantum Dx | Genomic Sequencing | BioNeMo, DGX Cloud, NIM |
-| James Mbeki | VoicePathAI | Clinical NLP | NeMo, Riva, NIM |
-| Amara Patel | RetinalAI | Ophthalmology Screening | Clara, MONAI, NIM |
-| Lena Nakamura | StructureIQ | Construction AI | Metropolis, Jetson Orin, DeepStream |
-
----
-
-## Why This Exists
-
-NVIDIA Inception managers onboard 50+ founders per cohort. Every first meeting starts cold. This platform compresses the cold-start problem — generating a complete founder brief, milestone roadmap, and kickoff agenda from intake data before the first conversation happens.
-
-At scale, Aria handles the pattern recognition and document generation. The manager handles the relationship. The founder gets both.
+| Founder | Company | Domain | Key NVIDIA Tools | Bottleneck Type |
+|---------|---------|--------|-----------------|-----------------|
+| Dr. Maya Chen | ClaraVision | Medical Imaging AI | NIM On-Prem, Clara, MONAI, FLARE | Compliance lag |
+| Ravi Krishnamurthy | NovaCrop AI | Precision Agriculture | Jetson Orin, TAO Toolkit, NIM | Edge deployment |
+| Sofia Torres | Quantum Dx | Genomic Sequencing | BioNeMo, DGX Cloud, NIM | Milestone stall |
+| James Mbeki | VoicePathAI | Clinical NLP | NeMo, Riva, NIM | Model accuracy |
+| Amara Patel | RetinalAI | Ophthalmology Screening | Clara, MONAI, NIM | Program disengagement |
+| Lena Nakamura | StructureIQ | Construction AI | Metropolis, Jetson Orin, DeepStream | Co-marketing readiness |
 
 ---
 
 ## Built By
 
-**Chanel Power** — Senior ML Engineer · DevRel Manager · Founder & CEO of Mentor Me Collective
+**Chanel Power** — Senior ML Engineer at Apple · Founder & CEO of Mentor Me Collective · Genspark Builder Grant Recipient (GTC 2026, one of 300 selected). Built to solve a real operational problem in the NVIDIA Inception program.
+
 GitHub: [itsChanelML](https://github.com/itsChanelML) · [@itsChanelML](https://twitter.com/itsChanelML)
