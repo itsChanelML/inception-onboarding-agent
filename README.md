@@ -301,6 +301,6 @@ Six founders across five domains, each designed against real operational bottlen
 
 ## Built By
 
-**Chanel Power** — Senior ML Engineer at Apple · Founder & CEO of Mentor Me Collective · Genspark Builder Grant Recipient (GTC 2026, one of 300 selected). Built to solve a real operational problem in the NVIDIA Inception program.
+**Chanel Power** — Senior ML Engineer · Founder & CEO of Mentor Me Collective · Genspark Builder Grant Recipient (GTC 2026, one of 300 selected). Built to solve a real operational problem in the NVIDIA Inception program.
 
-GitHub: [itsChanelML](https://github.com/itsChanelML) · [@itsChanelML](https://twitter.com/itsChanelML)
+GitHub: [itsChanelML](https://github.com/itsChanelML) · [@itsChanelML](https://linkedin.com/in/powerc1)
