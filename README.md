@@ -6,8 +6,6 @@
 ![Tests](https://img.shields.io/badge/Tests-99%20passing-brightgreen)
 ![Deployed](https://img.shields.io/badge/Deployed-Vercel-black)
 
-## 🔗 [Live Demo → inception-onboarding-agent.vercel.app](https://inception-onboarding-agent.vercel.app)
-
 > Start at the Founder portal. Complete onboarding as Dr. Maya Chen.
 > Then switch to the Manager portal to see what Aria prepared before you arrived.
 
