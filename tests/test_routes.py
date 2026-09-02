@@ -14,20 +14,65 @@ from unittest.mock import MagicMock, patch
 
 # ── App fixture ───────────────────────────────────────────────────────────────
 
+FOUNDER_SLUG = "claravision"
+FOUNDER_PROFILE = {
+    "slug": FOUNDER_SLUG,
+    "founder_name": "Dr. Maya Chen",
+    "company": "ClaraVision",
+    "domain": "Medical Imaging AI",
+    "primary_challenge": "Compliance lag",
+}
+
+
+def _get_founder(slug):
+    """Stand-in for FounderDB.get — real data for the slug tests use,
+    FileNotFoundError for everything else so the 404 path is exercised."""
+    if slug == FOUNDER_SLUG:
+        return dict(FOUNDER_PROFILE)
+    raise FileNotFoundError(slug)
+
+
 @pytest.fixture
-def app():
-    """Create Flask test client with agents mocked."""
+def app(tmp_path, monkeypatch):
+    """Create Flask test client with agents mocked.
+
+    The mocked modules return realistic, JSON-serializable data rather than
+    bare MagicMocks — jsonify() can't serialize a MagicMock, so an
+    unconfigured mock silently turns every success path into a 500 from the
+    app's own exception handling. Relative file writes (data/tickets.json,
+    founders/*.json) are sandboxed to a temp cwd so test runs never touch
+    the real project directory.
+    """
+    monkeypatch.chdir(tmp_path)
+
+    founder_db_instance = MagicMock()
+    founder_db_instance.get_all_summaries.return_value = [FOUNDER_PROFILE]
+    founder_db_instance.get.side_effect = _get_founder
+    founder_db_instance.list_slugs.return_value = [FOUNDER_SLUG]
+    founder_db_module = MagicMock()
+    founder_db_module.FounderDB.return_value = founder_db_instance
+
+    ticket_agent_module = MagicMock()
+    ticket_agent_module.triage.return_value = {"urgency": "technical", "category": "technical"}
+    ticket_agent_module.draft_response.return_value = "Thanks for flagging this — here's a starting point."
+
+    onboarding_instance = MagicMock()
+    onboarding_instance.process_intake.return_value = {"slug": "test_founder_001", "founder_name": "Test Founder"}
+    onboarding_instance.predict_chips.return_value = ["chip one", "chip two"]
+    onboarding_agent_module = MagicMock()
+    onboarding_agent_module.OnboardingAgent.return_value = onboarding_instance
+
     # Mock all agent imports before importing app
     with patch.dict('sys.modules', {
         'tools.nim_client': MagicMock(),
-        'tools.founder_db': MagicMock(),
+        'tools.founder_db': founder_db_module,
         'tools.memory': MagicMock(),
         'tools.journey_tracker': MagicMock(),
         'tools.vector_store': MagicMock(),
         'agents.orchestrator': MagicMock(),
         'agents.risk_agent': MagicMock(),
-        'agents.ticket_agent': MagicMock(),
-        'agents.onboarding_agent': MagicMock(),
+        'agents.ticket_agent': ticket_agent_module,
+        'agents.onboarding_agent': onboarding_agent_module,
         'agents.pattern_matcher': MagicMock(),
         'agents.monitor_agent': MagicMock(),
     }):

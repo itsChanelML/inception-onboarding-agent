@@ -552,7 +552,8 @@ def generate(slug, doc_type):
                     content = chunk.choices[0].delta.content
                     if content:
                         full_response += content
-                        yield f"data: {content.replace(chr(10), '\\n')}\n\n"
+                        escaped_content = content.replace(chr(10), "\\n")
+                        yield f"data: {escaped_content}\n\n"
 
             timestamp    = datetime.now().strftime("%Y%m%d_%H%M%S")
             output_path  = f"outputs/{slug}_{doc_type}_{timestamp}.md"
